@@ -15,7 +15,8 @@ public class CalcEngine {
     private int res;
     private int val;
 
-    
+    private boolean dbg;
+
     public enum Operation {
         NOT_INIT, INIT, EQUAL, ADD, SUB, DIV, MULTI,
     };
@@ -25,16 +26,24 @@ public class CalcEngine {
     /**
      * Constructor for class CalcEngine
      */
-    CalcEngine() {
+    public CalcEngine(boolean debug) {
         op = Operation.NOT_INIT;
+        dbg = debug;
+    }
+    
+    public CalcEngine() {
+        op = Operation.NOT_INIT;
+        dbg = false;
     }
 
-    
     public void command(Operation operation) {
         if (operation == Operation.EQUAL) {
             this._start_calc();
+        } else {
+            val = res;
+            op = operation;
         }
-        op = operation;
+        _debug_message();
     }
 
     public int get_result() {
@@ -42,12 +51,8 @@ public class CalcEngine {
     }
 
     public void set_val(int value) {
-        if (op == Operation.NOT_INIT) {
-            res = value;
-            op = Operation.INIT;
-        } else {
-            val = value;
-        }
+        res = value;
+        _debug_message();
     }
 
     private void _start_calc() {
@@ -83,5 +88,13 @@ public class CalcEngine {
 
     private int multi() {
         return res * val;
+    }
+
+    private void _debug_message() {
+        if (dbg) {
+            System.out.println("val = " + val);
+            System.out.println("res = " + res);
+            System.out.println("op = " + op);
+        }
     }
 }

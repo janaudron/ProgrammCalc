@@ -22,7 +22,7 @@ public class ConsoleInterface {
     ConsoleInterface() {
         quit = false;
         in = new Scanner (System.in);
-        calculator = new CalcEngine();
+        calculator = new CalcEngine(true);
     }
     
     /**
@@ -45,7 +45,42 @@ public class ConsoleInterface {
         
         if (input.compareTo("quit")==0 || input.compareTo("q")==0) {
             quit = true;
+            return;
         }
+        
+        int val;
+        try {
+            val = Integer.parseInt(input);
+            calculator.set_val(val);
+            //calculator.command(CalcEngine.Operation.EQUAL);
+            
+        } catch (NumberFormatException e) {
+        
+            if (input.contains("+")){
+                calculator.command(CalcEngine.Operation.ADD);
+                return;
+            }
+            if (input.contains("-")){
+                calculator.command(CalcEngine.Operation.SUB);
+                return;
+            }
+            if (input.contains("*")){
+                calculator.command(CalcEngine.Operation.MULTI);
+                return;
+            }
+            if (input.contains("/")){
+                calculator.command(CalcEngine.Operation.DIV);
+                return;
+            }
+            if (input.contains("=")){
+                calculator.command(CalcEngine.Operation.EQUAL);
+                System.out.println(calculator.get_result());
+                return;
+            }
+        }
+        
+
+        
 
         //if (Integer.parseInt(input))
     }
