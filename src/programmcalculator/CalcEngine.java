@@ -11,22 +11,25 @@ package programmcalculator;
  */
 public class CalcEngine {
 
+    //class variables
     private int res;
     private int val;
-    
 
+    
     public enum Operation {
         NOT_INIT, INIT, EQUAL, ADD, SUB, DIV, MULTI,
     };
-    
+
+    private Operation op;
+
     /**
      * Constructor for class CalcEngine
      */
-    private Operation op;
-    CalcEngine(){
+    CalcEngine() {
         op = Operation.NOT_INIT;
     }
 
+    
     public void command(Operation operation) {
         if (operation == Operation.EQUAL) {
             this._start_calc();
@@ -48,7 +51,7 @@ public class CalcEngine {
     }
 
     private void _start_calc() {
-       switch (op) {
+        switch (op) {
             case ADD:
                 res = this.add();
                 break;
