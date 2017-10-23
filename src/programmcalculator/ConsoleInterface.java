@@ -12,8 +12,11 @@ import java.util.Scanner;
  * @author JAudron
  */
 public class ConsoleInterface {
+    /* Флаг сигнализирующий о выходе */
     private boolean quit;
+    /* Чтение из stdin */
     private Scanner in;
+    /* Объект класса калькулятор */
     private CalcEngine calculator;
 
     /**
@@ -52,10 +55,7 @@ public class ConsoleInterface {
         try {
             val = Integer.parseInt(input);
             calculator.set_val(val);
-            //calculator.command(CalcEngine.Operation.EQUAL);
-            
         } catch (NumberFormatException e) {
-        
             if (input.contains("+")){
                 calculator.command(CalcEngine.Operation.ADD);
                 return;
@@ -78,11 +78,7 @@ public class ConsoleInterface {
                 return;
             }
         }
-        
-
-        
-
-        //if (Integer.parseInt(input))
     }
-    
 }
+
+
