@@ -62,8 +62,8 @@ public class CalcEngine {
      * Получение результата
      * @return Возврат результата
      */
-    public int get_result() {
-        return (int) res.getValue();
+    public String get_result() {
+        return res.getStr(Value.show_type.HEX);
     }
 
     /**
