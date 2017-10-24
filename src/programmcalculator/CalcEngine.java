@@ -24,7 +24,7 @@ public class CalcEngine {
 
     /* Операция */
     private Operation op;
-
+    
     /**
      * Constructor for class CalcEngine
      */
@@ -63,7 +63,7 @@ public class CalcEngine {
      * @return Возврат результата
      */
     public String get_result() {
-        return res.getStr(Value.show_type.HEX);
+        return res.getStr();
     }
 
     /**
@@ -73,6 +73,14 @@ public class CalcEngine {
     public void set_val(int value) {
         res.setValue(value);
         _debug_message();
+    }
+    
+    /**
+     * Установить режим отображения числа
+     * @param view_mode 
+     */
+    public void set_view_mod(Value.view_mode_e view_mode) {
+        res.setViewMode(view_mode);
     }
 
     

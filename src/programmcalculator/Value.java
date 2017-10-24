@@ -12,11 +12,11 @@ package programmcalculator;
  */
 public class Value {
 
-    private enum value_type {
+    private enum value_type_e {
         INT, FLOAT
     };
 
-    public enum show_type {
+    public enum view_mode_e {
         DEC, BIN, HEX
     }
 
@@ -25,7 +25,9 @@ public class Value {
     /* Значение в формате int */
     private int int_val;
     /* Тип значения*/
-    private value_type type;
+    private value_type_e type;
+    /* Режим отображения числа */
+    private view_mode_e vmode = view_mode_e.DEC;
 
     /**
      * Конструктор класс Value
@@ -33,7 +35,7 @@ public class Value {
     Value() {
         this.float_val = 0.0f;
         this.int_val = 0;
-        this.type = Value.value_type.INT;
+        this.type = Value.value_type_e.INT;
     }
 
     /**
@@ -43,7 +45,7 @@ public class Value {
      */
     public void setValue(int value) {
         this.int_val = value;
-        this.type = Value.value_type.INT;
+        this.type = Value.value_type_e.INT;
     }
 
     /**
@@ -53,7 +55,15 @@ public class Value {
      */
     public void setValue(float value) {
         this.float_val = value;
-        this.type = Value.value_type.FLOAT;
+        this.type = Value.value_type_e.FLOAT;
+    }
+    
+    /**
+     * Устанавливает режим отображения числа
+     * @param view_mode - режим отображения числа
+     */
+    public void setViewMode(Value.view_mode_e view_mode) {
+        this.vmode = view_mode;
     }
 
     /**
@@ -62,7 +72,7 @@ public class Value {
      * @return возвращает значение
      */
     public float getValue() {
-        if (this.type == Value.value_type.INT) {
+        if (this.type == Value.value_type_e.INT) {
             return (float) this.int_val;
         } else {
             return this.float_val;
@@ -74,9 +84,9 @@ public class Value {
      *
      * @return Возвращает значение в виде строке
      */
-    public String getStr(show_type type) {
+    public String getStr(){
         String result = new String();
-        switch (type) {
+        switch (vmode) {
             case DEC:
                 result = Integer.toString(int_val);
                 break;
