@@ -87,7 +87,7 @@ public class ConsoleInterface {
             return;
         }
         try {
-            int val = Integer.parseInt(input);
+            int val = Integer.decode(input);
             calculator.set_val(val);
         } catch (NumberFormatException e) {
             return;
