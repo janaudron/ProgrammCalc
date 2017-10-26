@@ -7,9 +7,11 @@ package programmcalculator;
 
 /**
  * Класс калькулятор
+ *
  * @author JAudron
  */
 public class CalcEngine {
+
     public enum Operation {
         NOT_INIT, INIT, EQUAL, ADD, SUB, DIV, MULTI,
     };
@@ -24,7 +26,7 @@ public class CalcEngine {
 
     /* Операция */
     private Operation op;
-    
+
     /**
      * Constructor for class CalcEngine
      */
@@ -45,12 +47,13 @@ public class CalcEngine {
     }
 
     /**
-     * Ввод комманды 
+     * Ввод комманды
+     *
      * @param operation операция
      */
     public void command(Operation operation) {
         if (operation == Operation.EQUAL) {
-            this._start_calc();
+            this.start_calc();
         } else {
             val.setValue(res.getValue());
             op = operation;
@@ -60,34 +63,36 @@ public class CalcEngine {
 
     /**
      * Получение результата
+     *
      * @return Возврат результата
      */
-    public String get_result() {
+    public String getResult() {
         return res.getStr();
     }
 
     /**
      * Установка нового значения
+     *
      * @param value - устанавливаемое значение
      */
-    public void set_val(int value) {
+    public void setVal(int value) {
         res.setValue(value);
         _debug_message();
     }
-    
+
     /**
      * Установить режим отображения числа
-     * @param view_mode 
+     *
+     * @param view_mode
      */
-    public void set_view_mod(Value.view_mode_e view_mode) {
+    public void setViewMode(Value.view_mode_e view_mode) {
         res.setViewMode(view_mode);
     }
 
-    
     /**
      * Начинает считать
      */
-    private void _start_calc() {
+    private void start_calc() {
         switch (op) {
             case ADD:
                 res.setValue(this.add());
@@ -108,14 +113,16 @@ public class CalcEngine {
 
     /**
      * Операция сложения
+     *
      * @return - возвращает результат
      */
     private int add() {
         return (int) val.getValue() + (int) res.getValue();
     }
-    
+
     /**
      * Операция вычитания
+     *
      * @return - возвращает результат
      */
     private int sub() {
@@ -124,21 +131,28 @@ public class CalcEngine {
 
     /**
      * Операция деления
+     *
      * @return - возвращает результат
      */
     private int div() {
-        return (int) val.getValue() / (int) res.getValue();
+        int calc = 0;
+        try {
+            calc = (int) val.getValue() / (int) res.getValue();
+        } catch (ArithmeticException e) {
+            calc = 0;
+        }
+        return calc;
     }
 
     /**
      * Операция умножения
+     *
      * @return - возвращает результат
      */
     private int multi() {
         return (int) val.getValue() * (int) res.getValue();
     }
 
-    
     /**
      * Отладочное сообщение
      */

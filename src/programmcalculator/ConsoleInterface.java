@@ -48,47 +48,38 @@ public class ConsoleInterface {
     private void listener(String input) {
         if (input.isEmpty()) {
             return;
-        }
-        if (input.equals("quit") || input.equals("q")) {
+        } else if (input.equals("quit") || input.equals("q")) {
             quit = true;
             return;
-        }
-        if (input.equals("HEX") || input.equals("hex")) {
-            calculator.set_view_mod(Value.view_mode_e.HEX);
+        } else if (input.equals("HEX") || input.equals("hex")) {
+            calculator.setViewMode(Value.view_mode_e.HEX);
             return;
-        }
-        if (input.equals("DEC") || input.equals("dec")) {
-            calculator.set_view_mod(Value.view_mode_e.DEC);
+        } else if (input.equals("DEC") || input.equals("dec")) {
+            calculator.setViewMode(Value.view_mode_e.DEC);
             return;
-        }
-        if (input.equals("BIN") || input.equals("bin")) {
-            calculator.set_view_mod(Value.view_mode_e.BIN);
+        } else if (input.equals("BIN") || input.equals("bin")) {
+            calculator.setViewMode(Value.view_mode_e.BIN);
             return;
-        }
-        if (input.equals("+")) {
+        } else if (input.equals("+")) {
             calculator.command(CalcEngine.Operation.ADD);
             return;
-        }
-        if (input.equals("-")) {
+        } else if (input.equals("-")) {
             calculator.command(CalcEngine.Operation.SUB);
             return;
-        }
-        if (input.equals("*")) {
+        } else if (input.equals("*")) {
             calculator.command(CalcEngine.Operation.MULTI);
             return;
-        }
-        if (input.equals("/")) {
+        } else if (input.equals("/")) {
             calculator.command(CalcEngine.Operation.DIV);
             return;
-        }
-        if (input.equals("=")) {
+        } else if (input.equals("=")) {
             calculator.command(CalcEngine.Operation.EQUAL);
-            System.out.println(calculator.get_result());
+            System.out.println(calculator.getResult());
             return;
         }
         try {
             int val = Integer.decode(input);
-            calculator.set_val(val);
+            calculator.setVal(val);
         } catch (NumberFormatException e) {
             return;
         }

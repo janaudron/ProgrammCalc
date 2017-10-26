@@ -11,28 +11,26 @@ package programmcalculator;
  * @author JAudron
  */
 public class Value {
-
     private enum value_type_e {
         INT, FLOAT
     };
-
     public enum view_mode_e {
         DEC, BIN, HEX
     }
 
     /* Значение в формате float */
-    private float float_val;
+    private float float_val = 0.0f;
     /* Значение в формате int */
-    private int int_val;
+    private int int_val = 0;
     /* Тип значения*/
-    private value_type_e type;
+    private value_type_e type = value_type_e.INT;
     /* Режим отображения числа */
     private view_mode_e vmode = view_mode_e.DEC;
 
     /**
      * Конструктор класс Value
      */
-    Value() {
+    public Value() {
         this.float_val = 0.0f;
         this.int_val = 0;
         this.type = Value.value_type_e.INT;

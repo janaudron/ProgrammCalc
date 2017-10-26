@@ -5,8 +5,6 @@
  */
 package programmcalculator;
 
-import java.util.Scanner;
-
 /**
  *
  * @author JAudron
