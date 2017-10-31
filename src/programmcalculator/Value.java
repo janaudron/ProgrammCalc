@@ -11,29 +11,51 @@ package programmcalculator;
  * @author JAudron
  */
 public class Value {
-    private enum value_type_e {
-        INT, FLOAT
+
+    /* Enumiration data type */
+    public enum data_type_e {
+        /* Byte*/
+        CHAR,
+        /* Half word*/
+        SHORT,
+        /* word */
+        INT,
+        /* double word*/
+        LONG,
+        /* float */
+        FLOAT,
+        /* double */
+        DOUBLE
     };
+
     public enum view_mode_e {
-        DEC, BIN, HEX
+        DEC,
+        BIN,
+        HEX
     }
 
-    /* Значение в формате float */
+    /* Value of number in float */
     private float float_val = 0.0f;
-    /* Значение в формате int */
-    private int int_val = 0;
-    /* Тип значения*/
-    private value_type_e type = value_type_e.INT;
-    /* Режим отображения числа */
+    /* Value of number in int */
+    private long long_val = 0;
+    /* Data type*/
+    private data_type_e type = data_type_e.INT;
+    /* View mode */
     private view_mode_e vmode = view_mode_e.DEC;
+    
+    private long MAX_VALUE;
+    private long MIN_VALUE;
+    
 
     /**
      * Конструктор класс Value
      */
     public Value() {
         this.float_val = 0.0f;
-        this.int_val = 0;
-        this.type = Value.value_type_e.INT;
+        this.long_val = 0;
+        this.type = Value.data_type_e.INT;
+        this.MAX_VALUE = _get_upper_depth(type);
+        this.MIN_VALUE = _get_lower_depth(type);
     }
 
     /**
@@ -41,9 +63,18 @@ public class Value {
      *
      * @param value - устанавливаемое значение
      */
-    public void setValue(int value) {
-        this.int_val = value;
-        this.type = Value.value_type_e.INT;
+    public void setValue(long value) {
+        long _value = (long) value;
+                
+        long lower_depth = _get_lower_depth(this.type);
+        long upper_depth = _get_upper_depth(this.type);
+        if (_value < lower_depth) {
+            this.long_val = lower_depth;
+        } else if (_value > upper_depth) {
+            this.long_val = upper_depth;
+        } else {
+            this.long_val = (int)_value;
+        }
     }
 
     /**
@@ -53,11 +84,33 @@ public class Value {
      */
     public void setValue(float value) {
         this.float_val = value;
-        this.type = Value.value_type_e.FLOAT;
+        this.type = Value.data_type_e.FLOAT;
     }
-    
+
+    /**
+     * Set data type
+     *
+     * @param type - data type
+     */
+    public void setDataType(data_type_e type) {
+        this.type = type;
+        
+        this.MIN_VALUE = _get_lower_depth(type);
+        this.MAX_VALUE = _get_upper_depth(type);
+    }
+
+    /**
+     * Get data type
+     *
+     * @return - data type
+     */
+    public Value.data_type_e getDataType() {
+        return type;
+    }
+
     /**
      * Устанавливает режим отображения числа
+     *
      * @param view_mode - режим отображения числа
      */
     public void setViewMode(Value.view_mode_e view_mode) {
@@ -69,12 +122,56 @@ public class Value {
      *
      * @return возвращает значение
      */
-    public float getValue() {
-        if (this.type == Value.value_type_e.INT) {
-            return (float) this.int_val;
-        } else {
-            return this.float_val;
+    public long getValue() {
+        long val = 0; 
+        switch(this.type){
+            case CHAR:
+            case SHORT:
+            case INT:
+            case LONG:
+                val = this.long_val;
+                break;
+//            case FLOAT:
+//            case DOUBLE:
+//                return this.float_val;
         }
+        return val; 
+    }
+    
+    /**
+     * Get min value for class type
+     * @return Return value
+     */
+    public long getMinValue() {
+        return this.MIN_VALUE;
+    }
+    
+    /**
+     * Get min value for current type 
+     * 
+     * @param type - data type
+     * @return Return value
+     */
+    public static long getMinValue(Value.data_type_e type) {
+        return _get_lower_depth(type);
+    }
+    
+    /**
+     * Get max value for class type
+     * @return Return value
+     */
+    public long getMaxValue() {
+        return this.MAX_VALUE;
+    }
+    
+    /**
+     * Get max value for current type 
+     * 
+     * @param type - data type
+     * @return Return value
+     */
+    public static long getMaxValue(Value.data_type_e type) {
+        return _get_upper_depth(type);
     }
 
     /**
@@ -82,20 +179,59 @@ public class Value {
      *
      * @return Возвращает значение в виде строке
      */
-    public String getStr(){
+    public String getStr() {
         String result = new String();
         switch (vmode) {
             case DEC:
-                result = Integer.toString(int_val);
+                result = Long.toString(long_val);
                 break;
             case HEX:
-                result = "0x"+Integer.toHexString(int_val);
+                result = "0x" + Long.toHexString(long_val);
                 break;
             case BIN:
-                result = Integer.toBinaryString(int_val);
+                result = Long.toBinaryString(long_val);
                 break;
         }
-        
         return result;
+    }
+
+    /**
+     * Get lower data depth
+     *
+     * @param type - data type
+     * @return return depth value
+     */
+    private static long _get_lower_depth(Value.data_type_e type) {
+        switch (type) {
+            case CHAR:
+                return 0xffffffffffffff80L;
+            case SHORT:
+                return 0xffffffffffff8000L;
+            case INT:
+                return 0xffffffff80000000L;
+            case LONG:
+                return 0x8000000000000000L;
+        }
+        return 0;
+    }
+
+    /**
+     * Get upper data depth
+     *
+     * @param type - data type
+     * @return return depth value
+     */
+    private static long _get_upper_depth(Value.data_type_e type) {
+        switch (type) {
+            case CHAR:
+                return 0x7f;
+            case SHORT:
+                return 0x7fff;
+            case INT:
+                return 0x7fffffff;
+            case LONG:
+                return 0x7fffffffffffffffL;
+        }
+        return 0;
     }
 }

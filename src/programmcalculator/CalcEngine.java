@@ -75,7 +75,7 @@ public class CalcEngine {
      *
      * @param value - устанавливаемое значение
      */
-    public void setVal(int value) {
+    public void setVal(long value) {
         res.setValue(value);
         _debug_message();
     }
@@ -87,6 +87,15 @@ public class CalcEngine {
      */
     public void setViewMode(Value.view_mode_e view_mode) {
         res.setViewMode(view_mode);
+    }
+    
+    /**
+     * Set data type for res and val
+     * @param data_type - data type
+     */
+    public void setDataType(Value.data_type_e data_type){
+        this.val.setDataType(data_type);
+        this.res.setDataType(data_type);
     }
 
     /**
@@ -161,6 +170,8 @@ public class CalcEngine {
             System.out.println("val = " + val.getValue());
             System.out.println("res = " + res.getValue());
             System.out.println("op = " + op);
+            System.out.println("get data type res = " + res.getDataType());
+            System.out.println("get data type val = " + val.getDataType());
         }
     }
 }
