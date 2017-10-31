@@ -57,15 +57,24 @@ public class ConsoleInterface {
         } else if (input.equals("CHAR") || input.equals("char")) {
             calculator.setDataType(data_type_e.CHAR);
             return;
-        } else if (input.equals("SHORT") || input.equals("SHORT")) {
+        } else if (input.equals("UCHAR") || input.equals("uchar")) {
+            calculator.setDataType(data_type_e.UCHAR);
+            return;
+        } else if (input.equals("SHORT") || input.equals("short")) {
             calculator.setDataType(data_type_e.SHORT);
             return;
-        } else if (input.equals("INT") || input.equals("INT")) {
+        } else if (input.equals("USHORT") || input.equals("ushort")) {
+            calculator.setDataType(data_type_e.USHORT);
+            return;
+        } else if (input.equals("INT") || input.equals("int")) {
             calculator.setDataType(data_type_e.INT);
             return;
-//        } else if (input.equals("LONG") || input.equals("LONG")) {
-//            calculator.setDataType(data_type_e.LONG);
-//            return;
+        } else if (input.equals("UINT") || input.equals("uint")) {
+            calculator.setDataType(data_type_e.UINT);
+            return;
+        } else if (input.equals("LONG") || input.equals("long")) {
+            calculator.setDataType(data_type_e.LONG);
+            return;
 //        } else if (input.equals("FLOAT") || input.equals("FLOAT")) {
 //            calculator.setDataType(data_type_e.FLOAT);
 //            return;
