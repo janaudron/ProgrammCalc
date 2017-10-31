@@ -12,7 +12,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-import programmcalculator.Value.view_mode_e;
 import programmcalculator.Value.data_type_e;
 
 /**
@@ -63,8 +62,11 @@ public class ValueTest {
         System.out.println("Test setValue int");
         data_type_e[] dtypes = {
             data_type_e.CHAR,
+            data_type_e.UCHAR,
             data_type_e.SHORT,
+            data_type_e.USHORT,
             data_type_e.INT,
+            data_type_e.UINT,
             data_type_e.LONG};
 
         long[] value = {
@@ -354,10 +356,16 @@ public class ValueTest {
         switch (type) {
             case CHAR:
                 return 0xffffffffffffff80L;
+            case UCHAR:
+                return 0x0L;
             case SHORT:
                 return 0xffffffffffff8000L;
+            case USHORT:
+                return 0x0L;
             case INT:
                 return 0xffffffff80000000L;
+            case UINT:
+                return 0x0L;
             case LONG:
                 return 0x8000000000000000L;
         }
@@ -373,10 +381,16 @@ public class ValueTest {
         switch (type) {
             case CHAR:
                 return 0x7fL;
+            case UCHAR:
+                return 0xffL;
             case SHORT:
                 return 0x7fffL;
+            case USHORT:
+                return 0xffffL;
             case INT:
                 return 0x7fffffffL;
+            case UINT:
+                return 0xffffffffL;
             case LONG:
                 return 0x7fffffffffffffffL;
         }

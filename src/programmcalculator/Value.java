@@ -16,10 +16,16 @@ public class Value {
     public enum data_type_e {
         /* Byte*/
         CHAR,
+        /* Unsigned byte */
+        UCHAR,
         /* Half word*/
         SHORT,
+        /* Unsigned half word*/
+        USHORT,
         /* word */
         INT,
+        /* Unsigned word*/
+        UINT, 
         /* double word*/
         LONG,
         /* float */
@@ -126,8 +132,11 @@ public class Value {
         long val = 0; 
         switch(this.type){
             case CHAR:
+            case UCHAR:
             case SHORT:
+            case USHORT:
             case INT:
+            case UINT:
             case LONG:
                 val = this.long_val;
                 break;
@@ -171,7 +180,8 @@ public class Value {
      * @return Return value
      */
     public static long getMaxValue(Value.data_type_e type) {
-        return _get_upper_depth(type);
+        long val = _get_upper_depth(type);
+        return val;
     }
 
     /**
@@ -205,10 +215,16 @@ public class Value {
         switch (type) {
             case CHAR:
                 return 0xffffffffffffff80L;
+            case UCHAR:
+                return 0x0;
             case SHORT:
                 return 0xffffffffffff8000L;
+            case USHORT:
+                return 0x0;
             case INT:
                 return 0xffffffff80000000L;
+            case UINT:
+                return 0x0;
             case LONG:
                 return 0x8000000000000000L;
         }
@@ -224,11 +240,17 @@ public class Value {
     private static long _get_upper_depth(Value.data_type_e type) {
         switch (type) {
             case CHAR:
-                return 0x7f;
+                return 0x7fL;
+            case UCHAR:
+                return 0xffL;
             case SHORT:
-                return 0x7fff;
+                return 0x7fffL;
+            case USHORT:
+                return 0xffffL;
             case INT:
-                return 0x7fffffff;
+                return 0x7fffffffL;
+            case UINT:
+                return 0xffffffffL;
             case LONG:
                 return 0x7fffffffffffffffL;
         }

@@ -97,6 +97,14 @@ public class CalcEngine {
         this.val.setDataType(data_type);
         this.res.setDataType(data_type);
     }
+    
+    /**
+     * Get current data type
+     * @return data type
+     */
+    public Value.data_type_e getDataType() {
+        return res.getDataType();
+    }
 
     /**
      * Начинает считать
