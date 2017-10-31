@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import programmcalculator.Value.data_type_e;
 
 /**
  *
@@ -36,7 +37,7 @@ public class CalcEngineTest {
     public static void tearDownClass() {
         System.out.println("Class CalcEngine test finish\n");
     }
-    
+
     @Before
     public void setUp() {
         error_count = 0;
@@ -111,7 +112,7 @@ public class CalcEngineTest {
      * Test of get_result method, of class CalcEngine.
      */
     @Test
-    public void testGet_result() {
+    public void testGetResult() {
         System.out.println("Test get_result");
 
         Value.view_mode_e[] view_mode = {
@@ -152,7 +153,7 @@ public class CalcEngineTest {
      * Test of set_val method, of class CalcEngine.
      */
     @Test
-    public void testSet_val() {
+    public void testSetVal() {
         System.out.println("Test set_val");
         int[] value = {0x80000000, 0x0, 0x7fffffff};
         for (int val : value) {
@@ -177,15 +178,44 @@ public class CalcEngineTest {
      * Test of set_view_mod method, of class CalcEngine.
      */
     @Test
-    public void testSet_view_mod() {
-        testGet_result();
+    public void testSetViewMode() {
+        testGetResult();
     }
 
+    /**
+     * Test of setDataType method, of class CalcEngine.
+     */
+    @Test
+    public void testSetDataType() {
+        System.out.println("Test setDataType");
+        data_type_e[] dtypes = {
+           data_type_e.CHAR,
+           data_type_e.UCHAR,
+           data_type_e.SHORT,
+           data_type_e.USHORT,
+           data_type_e.INT,
+           data_type_e.UINT,
+           data_type_e.LONG
+        };
+        
+        CalcEngine instance = new CalcEngine();
+        
+        for (data_type_e type : dtypes){
+            instance.setDataType(type);
+            data_type_e inst_type = instance.getDataType();
+                        
+            if (!type.equals(inst_type)) {
+                error_count++;
+            }
+            case_count++;
+        }
+        case_result(error_count, case_count);
+    }
+    
     private void case_result(int error_count, int case_count) {
         if (error_count > 0) {
             fail(error_count + "/" + case_count);
         }
         System.out.println("[Success] " + case_count + "/" + case_count);
     }
-
 }
