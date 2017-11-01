@@ -6,26 +6,41 @@
 package programmcalculator;
 
 /**
- * Класс калькулятор
+ * Class CalcEngine
  *
  * @author JAudron
  */
 public class CalcEngine {
 
+    //Operations enumerations
     public enum Operation {
-        NOT_INIT, INIT, EQUAL, ADD, SUB, DIV, MULTI,
+        NOT_INIT,
+        INIT,
+        EQUAL,
+        ADD,
+        SUB,
+        DIV,
+        MULTI
     };
 
-    //Результат вычислений
+    /* Enumeration View mode */
+    public enum view_mode_e {
+        DEC,
+        BIN,
+        HEX
+    }
+
+    //The result of the calculation
     private Value res;
-    //Новое значение
+    //New value
     private Value val;
-
-    //Выключатель отладочного режима
-    private boolean dbg;
-
-    /* Операция */
+    //View mode
+    private view_mode_e vmode = view_mode_e.DEC;
+    /* Operation */
     private Operation op;
+
+    //Switch debug mode
+    private boolean dbg;
 
     /**
      * Constructor for class CalcEngine
@@ -62,18 +77,30 @@ public class CalcEngine {
     }
 
     /**
-     * Получение результата
+     * Get string with result in current view mode
      *
-     * @return Возврат результата
+     * @return string result
      */
     public String getResult() {
-        return res.getStr();
+        String result = new String();
+        switch (vmode) {
+            case DEC:
+                result = Long.toString(res.getValue());
+                break;
+            case HEX:
+                result = "0x" + Long.toHexString(res.getValue());
+                break;
+            case BIN:
+                result = Long.toBinaryString(res.getValue());
+                break;
+        }
+        return result;
     }
 
     /**
-     * Установка нового значения
+     * Set value
      *
-     * @param value - устанавливаемое значение
+     * @param value - value
      */
     public void setVal(long value) {
         res.setValue(value);
@@ -81,25 +108,27 @@ public class CalcEngine {
     }
 
     /**
-     * Установить режим отображения числа
+     * Set view mode
      *
-     * @param view_mode
+     * @param view_mode - view type
      */
-    public void setViewMode(Value.view_mode_e view_mode) {
-        res.setViewMode(view_mode);
+    public void setViewMode(view_mode_e view_mode) {
+        this.vmode = view_mode;
     }
-    
+
     /**
      * Set data type for res and val
+     *
      * @param data_type - data type
      */
-    public void setDataType(Value.data_type_e data_type){
+    public void setDataType(Value.data_type_e data_type) {
         this.val.setDataType(data_type);
         this.res.setDataType(data_type);
     }
-    
+
     /**
      * Get current data type
+     *
      * @return data type
      */
     public Value.data_type_e getDataType() {

@@ -11,10 +11,14 @@ package programmcalculator;
  * @author JAudron
  */
 public class Value {
-
-    /* Enumiration data type */
+    /** 
+     * Enumeration data type 
+     * <li>{@link #CHAR}</li>
+     */
     public enum data_type_e {
-        /* Byte*/
+        /**
+         * Byte
+         */
         CHAR,
         /* Unsigned byte */
         UCHAR,
@@ -34,22 +38,20 @@ public class Value {
         DOUBLE
     };
 
-    public enum view_mode_e {
-        DEC,
-        BIN,
-        HEX
-    }
-
     /* Value of number in float */
     private float float_val = 0.0f;
     /* Value of number in int */
     private long long_val = 0;
     /* Data type*/
     private data_type_e type = data_type_e.INT;
-    /* View mode */
-    private view_mode_e vmode = view_mode_e.DEC;
-    
+
+    /**
+     * max value for current data type
+     */
     private long MAX_VALUE;
+    /**
+     * min value for current data type
+     */
     private long MIN_VALUE;
     
 
@@ -115,15 +117,6 @@ public class Value {
     }
 
     /**
-     * Устанавливает режим отображения числа
-     *
-     * @param view_mode - режим отображения числа
-     */
-    public void setViewMode(Value.view_mode_e view_mode) {
-        this.vmode = view_mode;
-    }
-
-    /**
      * Получение значений
      *
      * @return возвращает значение
@@ -182,27 +175,6 @@ public class Value {
     public static long getMaxValue(Value.data_type_e type) {
         long val = _get_upper_depth(type);
         return val;
-    }
-
-    /**
-     * Выводит значение в нужном формате
-     *
-     * @return Возвращает значение в виде строке
-     */
-    public String getStr() {
-        String result = new String();
-        switch (vmode) {
-            case DEC:
-                result = Long.toString(long_val);
-                break;
-            case HEX:
-                result = "0x" + Long.toHexString(long_val);
-                break;
-            case BIN:
-                result = Long.toBinaryString(long_val);
-                break;
-        }
-        return result;
     }
 
     /**
