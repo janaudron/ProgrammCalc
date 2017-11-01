@@ -6,6 +6,7 @@
 package programmcalculator;
 
 import java.util.Scanner;
+import programmcalculator.CalcEngine.view_mode_e;
 import programmcalculator.Value.data_type_e;
 
 /**
@@ -83,13 +84,13 @@ public class ConsoleInterface {
 //            return;
             //Number view mode
         } else if (input.equals("HEX") || input.equals("hex")) {
-            calculator.setViewMode(Value.view_mode_e.HEX);
+            calculator.setViewMode(view_mode_e.HEX);
             return;
         } else if (input.equals("DEC") || input.equals("dec")) {
-            calculator.setViewMode(Value.view_mode_e.DEC);
+            calculator.setViewMode(view_mode_e.DEC);
             return;
         } else if (input.equals("BIN") || input.equals("bin")) {
-            calculator.setViewMode(Value.view_mode_e.BIN);
+            calculator.setViewMode(view_mode_e.BIN);
             return;
             //Operations
         } else if (input.equals("+")) {
@@ -113,7 +114,7 @@ public class ConsoleInterface {
         //TODO Enter input in long
         try {
             long val = Long.decode(input);
-           
+
             calculator.setVal(val);
         } catch (NumberFormatException e) {
             return;

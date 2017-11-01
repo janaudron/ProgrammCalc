@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import programmcalculator.CalcEngine.view_mode_e;
 import programmcalculator.Value.data_type_e;
 
 /**
@@ -48,7 +49,6 @@ public class CalcEngineTest {
     @After
     public void tearDown() {
         case_result(error_count, case_count);
-        System.out.println("Test " + test_indx + " finish\n");
         test_indx++;
     }
 
@@ -57,7 +57,7 @@ public class CalcEngineTest {
      */
     @Test
     public void testCommand() {
-        System.out.println("Test command");
+        System.out.println("Test CalcEngine.command");
 
         CalcEngine.Operation[] operations = {
             CalcEngine.Operation.ADD,
@@ -113,16 +113,16 @@ public class CalcEngineTest {
      */
     @Test
     public void testGetResult() {
-        System.out.println("Test get_result");
+        System.out.println("Test CalcEngine.GetResult");
 
-        Value.view_mode_e[] view_mode = {
-            Value.view_mode_e.BIN,
-            Value.view_mode_e.DEC,
-            Value.view_mode_e.HEX
+        view_mode_e[] view_mode = {
+            view_mode_e.BIN,
+            view_mode_e.DEC,
+            view_mode_e.HEX
         };
 
         int value = 0xab;
-        for (Value.view_mode_e vmode : view_mode) {
+        for (view_mode_e vmode : view_mode) {
             CalcEngine instance = new CalcEngine();
 
             instance.setVal(value);
@@ -154,13 +154,13 @@ public class CalcEngineTest {
      */
     @Test
     public void testSetVal() {
-        System.out.println("Test set_val");
+        System.out.println("Test CalcEngine.SetVal");
         int[] value = {0x80000000, 0x0, 0x7fffffff};
         for (int val : value) {
             CalcEngine instance = new CalcEngine();
             instance.setVal(val);
 
-            Value.view_mode_e view_mode = Value.view_mode_e.DEC;
+            view_mode_e view_mode = view_mode_e.DEC;
             instance.setViewMode(view_mode);
 
             String str_inst_val = instance.getResult();
@@ -175,11 +175,50 @@ public class CalcEngineTest {
     }
 
     /**
-     * Test of set_view_mod method, of class CalcEngine.
+     * Test of setViewMode method, of class Value.
      */
     @Test
     public void testSetViewMode() {
-        testGetResult();
+        System.out.println("Test CalcEngine.setViewMode");
+
+        view_mode_e[] view_modes = {
+            view_mode_e.BIN,
+            view_mode_e.HEX,
+            view_mode_e.DEC
+        };
+        int val = 128;
+
+        for (view_mode_e mode : view_modes) {
+            CalcEngine instance = new CalcEngine();
+
+            instance.setVal(val);
+            instance.setViewMode(mode);
+            String inst_str = instance.getResult();
+
+            System.out.println(inst_str);
+            String _str = "";
+            switch (mode) {
+                case BIN:
+                    _str = Integer.toBinaryString(val);
+                    if (!inst_str.equals(_str)) {
+                        error_count++;
+                    }
+                    break;
+                case DEC:
+                    _str = Integer.toString(val);
+                    if (!inst_str.equals(_str)) {
+                        error_count++;
+                    }
+                    break;
+                case HEX:
+                    _str = "0x" + Integer.toHexString(val);
+                    if (!inst_str.equals(_str)) {
+                        error_count++;
+                    }
+                    break;
+            }
+            case_count++;
+        }
     }
 
     /**
@@ -187,35 +226,34 @@ public class CalcEngineTest {
      */
     @Test
     public void testSetDataType() {
-        System.out.println("Test setDataType");
+        System.out.println("Test CalcEngine.setDataType");
         data_type_e[] dtypes = {
-           data_type_e.CHAR,
-           data_type_e.UCHAR,
-           data_type_e.SHORT,
-           data_type_e.USHORT,
-           data_type_e.INT,
-           data_type_e.UINT,
-           data_type_e.LONG
+            data_type_e.CHAR,
+            data_type_e.UCHAR,
+            data_type_e.SHORT,
+            data_type_e.USHORT,
+            data_type_e.INT,
+            data_type_e.UINT,
+            data_type_e.LONG
         };
-        
+
         CalcEngine instance = new CalcEngine();
-        
-        for (data_type_e type : dtypes){
+
+        for (data_type_e type : dtypes) {
             instance.setDataType(type);
             data_type_e inst_type = instance.getDataType();
-                        
+
             if (!type.equals(inst_type)) {
                 error_count++;
             }
             case_count++;
         }
-        case_result(error_count, case_count);
     }
-    
+
     private void case_result(int error_count, int case_count) {
         if (error_count > 0) {
             fail(error_count + "/" + case_count);
         }
-        System.out.println("[Success] " + case_count + "/" + case_count);
+        System.out.println("Success tests " + case_count + "/" + case_count);
     }
 }

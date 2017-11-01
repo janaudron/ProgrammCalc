@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import programmcalculator.CalcEngine.view_mode_e;
 
 import programmcalculator.Value.data_type_e;
 
@@ -49,7 +50,6 @@ public class ValueTest {
     @After
     public void tearDown() {
         case_result(error_count, case_count);
-        System.out.println("Test " + test_indx + " finish\n");
         test_indx++;
     }
 
@@ -59,7 +59,7 @@ public class ValueTest {
      */
     @Test
     public void testSetValue_long() {
-        System.out.println("Test setValue int");
+        System.out.println("Test Value.setValue int");
         data_type_e[] dtypes = {
             data_type_e.CHAR,
             data_type_e.UCHAR,
@@ -100,7 +100,7 @@ public class ValueTest {
      */
     @Test
     public void testSetValue_float() {
-        System.out.println("Test setValue float");
+        System.out.println("Test Value.setValue_float");
         float[] value = {-10.0F, -1.21F, -0.0001F, 0.0f, 0.0001F, 2.132F, 100.0F};
 //        for (float val : value) {
 //            Value instance = new Value();
@@ -114,69 +114,13 @@ public class ValueTest {
     }
 
     /**
-     * Test of setViewMode method, of class Value.
-     */
-    @Test
-    public void testSetViewMode() {
-        System.out.println("Test setViewMode");
-
-        Value.view_mode_e[] view_modes = {
-            Value.view_mode_e.BIN,
-            Value.view_mode_e.HEX,
-            Value.view_mode_e.DEC
-        };
-        int val = 128;
-
-        for (Value.view_mode_e mode : view_modes) {
-            Value instance = new Value();
-
-            instance.setValue(val);
-            instance.setViewMode(mode);
-            String str = instance.getStr();
-
-            System.out.println(str);
-            String _str = "";
-            switch (mode) {
-                case BIN:
-                    _str = Integer.toBinaryString(val);
-                    if (!str.equals(_str)) {
-                        error_count++;
-                    }
-                    break;
-                case DEC:
-                    _str = Integer.toString(val);
-                    if (!str.equals(_str)) {
-                        error_count++;
-                    }
-                    break;
-                case HEX:
-                    _str = "0x" + Integer.toHexString(val);
-                    if (!str.equals(_str)) {
-                        error_count++;
-                    }
-                    break;
-            }
-            case_count++;
-        }
-    }
-
-    /**
      * Test of getValue method, of class Value.
      */
     @Test
     public void testGetValue() {
-        System.out.println("Test getValue");
+        System.out.println("Test Value.getValue");
         this.testSetValue_float();
         this.testSetValue_long();
-    }
-
-    /**
-     * Test of getStr method, of class Value.
-     */
-    @Test
-    public void testGetStr() {
-        System.out.println("Test getStr");
-        this.testSetViewMode();
     }
 
     /**
@@ -184,7 +128,7 @@ public class ValueTest {
      */
     @Test
     public void testSetDataType() {
-        System.out.println("Test setDataType");
+        System.out.println("Test Value.setDataType");
         data_type_e[] type = {
             data_type_e.CHAR,
             data_type_e.SHORT,
@@ -210,7 +154,7 @@ public class ValueTest {
      */
     @Test
     public void testGetDataType() {
-        System.out.println("getDataType");
+        System.out.println("Test Value.getDataType");
         data_type_e[] type = {
             data_type_e.CHAR,
             data_type_e.SHORT,
@@ -236,7 +180,7 @@ public class ValueTest {
      */
     @Test
     public void testGetMinValue_0args() {
-        System.out.println("Test getMinValue 0 args");
+        System.out.println("Test Value.getMinValue_0args");
 
         data_type_e[] dtypes = {
             data_type_e.CHAR,
@@ -266,7 +210,7 @@ public class ValueTest {
      */
     @Test
     public void testGetMinValue_Valuedata_type_e() {
-        System.out.println("Test getMinValue");
+        System.out.println("Test Value.getMinValue");
 
         data_type_e[] dtypes = {
             data_type_e.CHAR,
@@ -293,7 +237,7 @@ public class ValueTest {
      */
     @Test
     public void testGetMaxValue_0args() {
-        System.out.println("Test getMaxValue 0 args");
+        System.out.println("Test Value.getMaxValue_0_args");
 
         data_type_e[] dtypes = {
             data_type_e.CHAR,
@@ -323,7 +267,7 @@ public class ValueTest {
      */
     @Test
     public void testGetMaxValue_Valuedata_type_e() {
-        System.out.println("Test getMaxValue");
+        System.out.println("Test Value.getMaxValue");
 
         data_type_e[] dtypes = {
             data_type_e.CHAR,
@@ -344,7 +288,6 @@ public class ValueTest {
             case_count++;
         }
 
-        case_result(error_count, case_count);
     }
 
     /**
@@ -401,6 +344,6 @@ public class ValueTest {
         if (error_count > 0) {
             fail(error_count + "/" + case_count);
         }
-        System.out.println("Success " + case_count + "/" + case_count);
+        System.out.println("Success " + case_count + "/" + case_count + "\n");
     }
 }
