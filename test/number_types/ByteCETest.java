@@ -48,26 +48,6 @@ public class ByteCETest {
     }
 
     /**
-     * Test of setValue method, of class ByteCE.
-     */
-    @Test
-    public void testSetValue() {
-        System.out.println("Test ByteCE.setValue");
-        double[] src_buf = {-171.0, 71.0, 300.0};
-        double[] ref_buf = {-128.0, 71.0, 127.0};
-        ByteCE inst = new ByteCE();
-        for (double src : src_buf) {
-            inst.setValue(src);
-            double dst = inst.getValue();
-            double ref = ref_buf[case_count];
-            if (ref != dst) {
-                error_count++;
-            }
-            case_count++;
-        }
-    }
-
-    /**
      * Test of toHex method, of class ByteCE.
      */
     @Test
