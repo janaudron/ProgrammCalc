@@ -9,7 +9,7 @@ package number_types;
  * Class UnsignedShortCE
  * @author JAudron
  */
-public class SignedShortCE extends ByteCE{
+public class SignedShortCE extends ShortCE{
     /**
      * Max value for this type
      */
