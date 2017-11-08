@@ -5,23 +5,26 @@
  */
 package programmcalculator;
 
+import number_types.*;
+
 /**
- * Класс с числами различных форматов
+ * Class Value
  *
  * @author JAudron
  */
 public class Value {
-    /** 
-     * Enumeration data type 
-     * <li>{@link #CHAR}</li>
+
+    /**
+     * Enumeration data type
+     * <li>{@link #BYTE}</li>
      */
     public enum data_type_e {
         /**
          * Byte
          */
-        CHAR,
+        BYTE,
         /* Unsigned byte */
-        UCHAR,
+        UBYTE,
         /* Half word*/
         SHORT,
         /* Unsigned half word*/
@@ -29,7 +32,7 @@ public class Value {
         /* word */
         INT,
         /* Unsigned word*/
-        UINT, 
+        UINT,
         /* double word*/
         LONG,
         /* float */
@@ -39,60 +42,25 @@ public class Value {
     };
 
     /* Value of number in float */
-    private float float_val = 0.0f;
-    /* Value of number in int */
-    private long long_val = 0;
+    private NumberCE num = new IntegerCE();
     /* Data type*/
     private data_type_e type = data_type_e.INT;
 
     /**
-     * max value for current data type
-     */
-    private long MAX_VALUE;
-    /**
-     * min value for current data type
-     */
-    private long MIN_VALUE;
-    
-
-    /**
-     * Конструктор класс Value
+     * Constructor or class Value;
      */
     public Value() {
-        this.float_val = 0.0f;
-        this.long_val = 0;
-        this.type = Value.data_type_e.INT;
-        this.MAX_VALUE = _get_upper_depth(type);
-        this.MIN_VALUE = _get_lower_depth(type);
+//        this.setDataType(data_type_e.INT);
+//        this.num.setValue(0);
     }
 
     /**
-     * Устанавливает значение типа int
+     * Set value;
      *
-     * @param value - устанавливаемое значение
+     * @param value - settable value
      */
-    public void setValue(long value) {
-        long _value = (long) value;
-                
-        long lower_depth = _get_lower_depth(this.type);
-        long upper_depth = _get_upper_depth(this.type);
-        if (_value < lower_depth) {
-            this.long_val = lower_depth;
-        } else if (_value > upper_depth) {
-            this.long_val = upper_depth;
-        } else {
-            this.long_val = (int)_value;
-        }
-    }
-
-    /**
-     * Устанавливает значение типа float
-     *
-     * @param value - устанавливаемое значение
-     */
-    public void setValue(float value) {
-        this.float_val = value;
-        this.type = Value.data_type_e.FLOAT;
+    public void setValue(double value) {
+        num.setValue(value);
     }
 
     /**
@@ -102,9 +70,41 @@ public class Value {
      */
     public void setDataType(data_type_e type) {
         this.type = type;
-        
-        this.MIN_VALUE = _get_lower_depth(type);
-        this.MAX_VALUE = _get_upper_depth(type);
+        NumberCE tmp_num = this.num;
+        switch (type) {
+            case BYTE:
+                this.num = new SignedByteCE();
+                break;
+            case UBYTE:
+                this.num = new UnsignedByteCE();
+                break;
+            case SHORT:
+                this.num = new SignedShortCE();
+                break;
+            case USHORT:
+                this.num = new UnsignedShortCE();
+                break;
+            case INT:
+                this.num = new SignedIntegerCE();
+                break;
+            case UINT:
+                this.num = new UnsignedIntegerCE();
+                break;
+            case LONG:
+                this.num = new LongCE();
+                break;
+            case FLOAT:
+                this.num = new FloatCE();
+                break;
+            case DOUBLE:
+                this.num = new DoubleCE();
+                break;
+            default:
+                this.num = new SignedIntegerCE();
+                break;
+        }
+
+        this.num.setValue(tmp_num.getValue());
     }
 
     /**
@@ -117,115 +117,39 @@ public class Value {
     }
 
     /**
-     * Получение значений
+     * Get value
      *
-     * @return возвращает значение
+     * @return value
      */
-    public long getValue() {
-        long val = 0; 
-        switch(this.type){
-            case CHAR:
-            case UCHAR:
-            case SHORT:
-            case USHORT:
-            case INT:
-            case UINT:
-            case LONG:
-                val = this.long_val;
-                break;
-//            case FLOAT:
-//            case DOUBLE:
-//                return this.float_val;
-        }
-        return val; 
-    }
-    
-    /**
-     * Get min value for class type
-     * @return Return value
-     */
-    public long getMinValue() {
-        return this.MIN_VALUE;
-    }
-    
-    /**
-     * Get min value for current type 
-     * 
-     * @param type - data type
-     * @return Return value
-     */
-    public static long getMinValue(Value.data_type_e type) {
-        return _get_lower_depth(type);
-    }
-    
-    /**
-     * Get max value for class type
-     * @return Return value
-     */
-    public long getMaxValue() {
-        return this.MAX_VALUE;
-    }
-    
-    /**
-     * Get max value for current type 
-     * 
-     * @param type - data type
-     * @return Return value
-     */
-    public static long getMaxValue(Value.data_type_e type) {
-        long val = _get_upper_depth(type);
+    public double getValue() {
+        double val = this.num.getValue();
         return val;
     }
 
     /**
-     * Get lower data depth
+     * Get hex string
      *
-     * @param type - data type
-     * @return return depth value
+     * @return hex string
      */
-    private static long _get_lower_depth(Value.data_type_e type) {
-        switch (type) {
-            case CHAR:
-                return 0xffffffffffffff80L;
-            case UCHAR:
-                return 0x0;
-            case SHORT:
-                return 0xffffffffffff8000L;
-            case USHORT:
-                return 0x0;
-            case INT:
-                return 0xffffffff80000000L;
-            case UINT:
-                return 0x0;
-            case LONG:
-                return 0x8000000000000000L;
-        }
-        return 0;
+    public String toHex() {
+        return num.toHex();
     }
 
     /**
-     * Get upper data depth
+     * Get bin string
      *
-     * @param type - data type
-     * @return return depth value
+     * @return hex string
      */
-    private static long _get_upper_depth(Value.data_type_e type) {
-        switch (type) {
-            case CHAR:
-                return 0x7fL;
-            case UCHAR:
-                return 0xffL;
-            case SHORT:
-                return 0x7fffL;
-            case USHORT:
-                return 0xffffL;
-            case INT:
-                return 0x7fffffffL;
-            case UINT:
-                return 0xffffffffL;
-            case LONG:
-                return 0x7fffffffffffffffL;
-        }
-        return 0;
+    public String toBin() {
+        return num.toBin();
+    }
+
+    /**
+     * Get dec string
+     *
+     * @return hex string
+     */
+    public String toDec() {
+        return num.toDec();
     }
 }
