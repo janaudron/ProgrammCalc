@@ -78,4 +78,13 @@ public class LongCE extends NumberCE {
         }
         return bin_str;
     }
+
+    /**
+     * Get dec string of the number
+     *
+     * @return string of the number
+     */
+    public String toDec() {
+        return Long.toString((long) super.getValue());
+    }
 }

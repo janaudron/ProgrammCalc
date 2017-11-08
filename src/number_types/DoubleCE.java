@@ -60,4 +60,13 @@ public class DoubleCE extends NumberCE {
         String bin_str = Long.toBinaryString(long_bits);
         return bin_str;
     }
+
+    /**
+     * Get dec string of the number
+     *
+     * @return string of the number
+     */
+    public String toDec() {
+        return Double.toString(super.getValue());
+    }
 }

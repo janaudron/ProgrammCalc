@@ -62,4 +62,13 @@ public class IntegerCE extends NumberCE {
         }
         return bin_str;
     }
+
+    /**
+     * Get dec string of the number
+     *
+     * @return string of the number
+     */
+    public String toDec() {
+        return Integer.toString((int) super.getValue());
+    }
 }

@@ -53,4 +53,13 @@ public class ByteCE extends NumberCE {
         }
         return bin_str;
     }
+    
+    /**
+     * Get dec string of the number
+     * 
+     * @return dec string of the number
+     */
+    public String toDec() {
+        return Integer.toString((int)super.getValue());
+    }
 }

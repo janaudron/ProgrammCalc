@@ -10,7 +10,7 @@ package number_types;
  *
  * @author JAudron
  */
-public class NumberCE {
+public abstract class NumberCE {
 
     /**
      * num
@@ -34,4 +34,25 @@ public class NumberCE {
     public double getValue() {
         return this.num;
     }
+
+    /**
+     * Get hex string
+     *
+     * @return hex string
+     */
+    public abstract String toHex();
+
+    /**
+     * Get bin string
+     *
+     * @return bin string
+     */
+    public abstract String toBin();
+
+    /**
+     * Get dec string
+     *
+     * @return dec string
+     */
+    public abstract String toDec();
 }

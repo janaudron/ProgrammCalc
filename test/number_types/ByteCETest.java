@@ -17,13 +17,14 @@ import static org.junit.Assert.*;
  * @author JAudron
  */
 public class ByteCETest {
+
     private int error_count;
     private int case_count;
     private static int test_indx = 0;
-    
+
     public ByteCETest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
         System.out.println("Class ByteCE test start");
@@ -53,7 +54,7 @@ public class ByteCETest {
     @Test
     public void testToHex() {
         System.out.println("Test ByteCE.toHex");
-        double[] src_buf = {-128.0,  0.0,  127.0 };
+        double[] src_buf = {-128.0, 0.0, 127.0};
         String[] ref_str = {"0x80", "0x0", "0x7f"};
 
         ByteCE inst = new ByteCE();
@@ -61,7 +62,7 @@ public class ByteCETest {
             inst.setValue(src);
             String dst_hex = inst.toHex();
             String ref_hex = ref_str[case_count];
-            
+
             if (!dst_hex.equals(ref_hex)) {
                 error_count++;
             }
@@ -76,7 +77,7 @@ public class ByteCETest {
     @Test
     public void testToBin() {
         System.out.println("Test ByteCE.toBin");
-        double[] src_buf = {-128.0,     0.0, 127.0 };
+        double[] src_buf = {-128.0, 0.0, 127.0};
         String[] ref_str = {"10000000", "0", "1111111"};
 
         ByteCE inst = new ByteCE();
@@ -84,7 +85,7 @@ public class ByteCETest {
             inst.setValue(src);
             String dst_hex = inst.toBin();
             String ref_hex = ref_str[case_count];
-            
+
             if (!dst_hex.equals(ref_hex)) {
                 error_count++;
             }
@@ -92,7 +93,30 @@ public class ByteCETest {
             case_count++;
         }
     }
-    
+
+    /**
+     * Test of toDec method, of class ByteCE.
+     */
+    @Test
+    public void testToDec() {
+        System.out.println("Test ByteCE.toDec");
+        double[] src_buf = {-128.0, 0.0, 127.0};
+        String[] ref_str = {"-128", "0", "127"};
+
+        ByteCE inst = new ByteCE();
+        for (double src : src_buf) {
+            inst.setValue(src);
+            String dst_dec = inst.toDec();
+            String ref_dec = ref_str[case_count];
+
+            if (!dst_dec.equals(ref_dec)) {
+                error_count++;
+            }
+
+            case_count++;
+        }
+    }
+
     private void case_result(int error_count, int case_count) {
         if (error_count > 0) {
             fail("Errors" + error_count + "/" + case_count + "\n");

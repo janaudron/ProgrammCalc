@@ -130,6 +130,37 @@ public class FloatCETest {
         }
     }
 
+    /**
+     * Test of toDec method, of class ByteCE.
+     */
+    @Test
+    public void testToDec() {
+        System.out.println("Test FloatCE.toDec");
+        double[] src_buf = {
+            -1032.154, 
+            0.0, 
+            2056.23
+        };
+        String[] ref_str = {
+            "-1032.154",
+            "0.0",
+            "2056.23"
+        };
+
+        FloatCE inst = new FloatCE();
+        for (double src : src_buf) {
+            inst.setValue(src);
+            String dst_dec = inst.toDec();
+            String ref_dec = ref_str[case_count];
+
+            if (!dst_dec.equals(ref_dec)) {
+                error_count++;
+            }
+
+            case_count++;
+        }
+    }
+
     private void case_result(int error_count, int case_count) {
         if (error_count > 0) {
             fail("Errors" + error_count + "/" + case_count + "\n");

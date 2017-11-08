@@ -98,6 +98,31 @@ public class IntegerCETest {
         }
     }
 
+    /**
+     * Test of toDec method, of class ByteCE.
+     */
+    @Test
+    public void testToDec() {
+        System.out.println("Test IntegerCE.toDec");
+        double[] src_buf = {-32434, 0.0, 32768};
+        String[] ref_str = {
+            "-32434", "0", "32768"
+        };
+
+        IntegerCE inst = new IntegerCE();
+        for (double src : src_buf) {
+            inst.setValue(src);
+            String dst_dec = inst.toDec();
+            String ref_dec = ref_str[case_count];
+
+            if (!dst_dec.equals(ref_dec)) {
+                error_count++;
+            }
+
+            case_count++;
+        }
+    }
+
     private void case_result(int error_count, int case_count) {
         if (error_count > 0) {
             fail("Errors" + error_count + "/" + case_count + "\n");

@@ -70,13 +70,18 @@ public class FloatCE extends NumberCE {
      * @return string of the number
      */
     public String toBin() {
-        int int_bits =  Float.floatToIntBits((float) super.getValue());
+        int int_bits = Float.floatToIntBits((float) super.getValue());
         String bin_str = new String();
         bin_str = Integer.toBinaryString(int_bits);
-//        int len_str = bin_str.length();
-//        if (len_str > BIN_LENGTH) {
-//            bin_str = bin_str.substring(len_str - BIN_LENGTH);
-//        }
         return bin_str;
+    }
+
+    /**
+     * Get dec string of the number
+     *
+     * @return string of the number
+     */
+    public String toDec() {
+        return Float.toString((float) super.getValue());
     }
 }

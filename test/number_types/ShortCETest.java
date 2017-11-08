@@ -92,6 +92,29 @@ public class ShortCETest {
             case_count++;
         }
     }
+
+    /**
+     * Test of toDec method, of class ByteCE.
+     */
+    @Test
+    public void testToDec() {
+        System.out.println("Test ByteCE.toDec");
+        double[] src_buf = {-32768.0, 0.0,  32767.0 };
+        String[] ref_str = {"-32768", "0", "32767"};
+
+        ShortCE inst = new ShortCE();
+        for (double src : src_buf) {
+            inst.setValue(src);
+            String dst_dec = inst.toDec();
+            String ref_dec = ref_str[case_count];
+            
+            if (!dst_dec.equals(ref_dec)) {
+                error_count++;
+            }
+
+            case_count++;
+        }
+    }
     
     private void case_result(int error_count, int case_count) {
         if (error_count > 0) {
