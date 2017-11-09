@@ -66,7 +66,7 @@ public class CalcEngine {
      *
      * @param operation операция
      */
-    public void command(Operation operation) {
+    public void setCommand(Operation operation) {
         if (operation == Operation.EQUAL) {
             this.start_calc();
         } else {
@@ -85,13 +85,13 @@ public class CalcEngine {
         String result = new String();
         switch (vmode) {
             case DEC:
-                result = Long.toString(res.getValue());
+                result = res.toDec();
                 break;
             case HEX:
-                result = "0x" + Long.toHexString(res.getValue());
+                result = res.toHex();
                 break;
             case BIN:
-                result = Long.toBinaryString(res.getValue());
+                result = res.toBin();
                 break;
         }
         return result;
@@ -102,9 +102,17 @@ public class CalcEngine {
      *
      * @param value - value
      */
-    public void setVal(long value) {
+    public void setVal(double value) {
         res.setValue(value);
         _debug_message();
+    }
+    
+    /**
+     * Get result in value
+     * @return value
+     */
+    public  double getVal(){
+        return this.res.getValue();
     }
 
     /**
@@ -114,6 +122,16 @@ public class CalcEngine {
      */
     public void setViewMode(view_mode_e view_mode) {
         this.vmode = view_mode;
+    }
+    
+    
+    /**
+     * Get view mode
+     *
+     * @return view type
+     */
+    public view_mode_e getViewMode() {
+        return this.vmode;
     }
 
     /**
@@ -162,8 +180,8 @@ public class CalcEngine {
      *
      * @return - возвращает результат
      */
-    private int add() {
-        return (int) val.getValue() + (int) res.getValue();
+    private double add() {
+        return val.getValue() + res.getValue();
     }
 
     /**
@@ -171,8 +189,8 @@ public class CalcEngine {
      *
      * @return - возвращает результат
      */
-    private int sub() {
-        return (int) val.getValue() - (int) res.getValue();
+    private double sub() {
+        return val.getValue() - res.getValue();
     }
 
     /**
@@ -180,13 +198,14 @@ public class CalcEngine {
      *
      * @return - возвращает результат
      */
-    private int div() {
-        int calc = 0;
-        try {
-            calc = (int) val.getValue() / (int) res.getValue();
-        } catch (ArithmeticException e) {
-            calc = 0;
+    private double div() {
+        double calc = 0;
+        double _val = val.getValue();
+        double _res = res.getValue();
+        if (_res == 0) {
+            return 0.0;
         }
+        calc = _val / _res;
         return calc;
     }
 
@@ -195,8 +214,8 @@ public class CalcEngine {
      *
      * @return - возвращает результат
      */
-    private int multi() {
-        return (int) val.getValue() * (int) res.getValue();
+    private double multi() {
+        return val.getValue() * res.getValue();
     }
 
     /**

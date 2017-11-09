@@ -53,7 +53,7 @@ public class CalcEngineTest {
     }
 
     /**
-     * Test of command method, of class CalcEngine.
+     * Test of setCommand method, of class CalcEngine.
      */
     @Test
     public void testCommand() {
@@ -66,40 +66,23 @@ public class CalcEngineTest {
             CalcEngine.Operation.SUB
         };
 
-        int[] value0 = {0x80000000, 0, 0x7fffffff};
-        int[] value1 = {0x80000000, 0, 0x7fffffff};
+        double[] value0 = {-1024.54, 0, 999.123134};
+        double[] value1 = {5000, 0, 123};
 
-        for (int val0 : value0) {
-            for (int val1 : value1) {
+        CalcEngine instance = new CalcEngine();
+        instance.setDataType(data_type_e.DOUBLE);
+        for (double val0 : value0) {
+            for (double val1 : value1) {
                 for (CalcEngine.Operation op : operations) {
-                    int ref = 0;
-                    int calc = 0;
-                    CalcEngine instance = new CalcEngine();
-
-                    instance.setVal(val0);
-                    instance.command(op);
+                     instance.setVal(val0);
+                    instance.setCommand(op);
                     instance.setVal(val1);
-                    instance.command(CalcEngine.Operation.EQUAL);
-                    calc = Integer.decode(instance.getResult());
-                    switch (op) {
-                        case ADD:
-                            ref = val0 + val1;
-                            break;
-                        case DIV:
-                            try {
-                                ref = val0 / val1;
-                            } catch (ArithmeticException e) {
-                                ref = 0;
-                            }
-                            break;
-                        case MULTI:
-                            ref = val0 * val1;
-                            break;
-                        case SUB:
-                            ref = val0 - val1;
-                            break;
-                    }
-                    if (ref != calc) {
+
+                    instance.setCommand(CalcEngine.Operation.EQUAL);
+                    double dst = instance.getVal();
+                    double ref = ref_command(op, val0, val1);
+
+                    if (ref != dst) {
                         error_count++;
                     }
                     case_count++;
@@ -108,70 +91,39 @@ public class CalcEngineTest {
         }
     }
 
-    /**
-     * Test of get_result method, of class CalcEngine.
-     */
-    @Test
-    public void testGetResult() {
-        System.out.println("Test CalcEngine.GetResult");
-
-        view_mode_e[] view_mode = {
-            view_mode_e.BIN,
-            view_mode_e.DEC,
-            view_mode_e.HEX
-        };
-
-        int value = 0xab;
-        for (view_mode_e vmode : view_mode) {
-            CalcEngine instance = new CalcEngine();
-
-            instance.setVal(value);
-            instance.setViewMode(vmode);
-            String inst_value = instance.getResult();
-
-            String ref_value = "";
-            switch (vmode) {
-                case BIN:
-                    ref_value = Integer.toBinaryString(value);
-                    break;
-                case DEC:
-                    ref_value = Integer.toString(value);
-                    break;
-                case HEX:
-                    ref_value = "0x" + Integer.toHexString(value);
-                    break;
-            }
-
-            if (!ref_value.equals(inst_value)) {
-                error_count++;
-            }
-            case_count++;
+    private double ref_command(CalcEngine.Operation op, double a, double b) {
+        switch (op) {
+            case ADD:
+                return ref_add(a, b);
+            case SUB:
+                return ref_sub(a, b);
+            case MULTI:
+                return ref_mult(a, b);
+            case DIV:
+                return ref_div(a, b);
+            default:
+            return 0;
         }
+        
     }
 
-    /**
-     * Test of set_val method, of class CalcEngine.
-     */
-    @Test
-    public void testSetVal() {
-        System.out.println("Test CalcEngine.SetVal");
-        int[] value = {0x80000000, 0x0, 0x7fffffff};
-        for (int val : value) {
-            CalcEngine instance = new CalcEngine();
-            instance.setVal(val);
+    private double ref_add(double a, double b) {
+        return a + b;
+    }
 
-            view_mode_e view_mode = view_mode_e.DEC;
-            instance.setViewMode(view_mode);
+    private double ref_sub(double a, double b) {
+        return a - b;
+    }
 
-            String str_inst_val = instance.getResult();
-            String str_val = Integer.toString(val);
+    private double ref_mult(double a, double b) {
+        return a * b;
+    }
 
-            if (!str_val.equals(str_inst_val)) {
-                error_count++;
-            }
-
-            case_count++;
+    private double ref_div(double a, double b) {
+        if (b == 0) {
+            return 0;
         }
+        return a / b;
     }
 
     /**
@@ -186,36 +138,15 @@ public class CalcEngineTest {
             view_mode_e.HEX,
             view_mode_e.DEC
         };
-        int val = 128;
 
-        for (view_mode_e mode : view_modes) {
+        for (view_mode_e dst_mode : view_modes) {
             CalcEngine instance = new CalcEngine();
 
-            instance.setVal(val);
-            instance.setViewMode(mode);
-            String inst_str = instance.getResult();
+            instance.setViewMode(dst_mode);
+            view_mode_e ref_mode = instance.getViewMode();
 
-            System.out.println(inst_str);
-            String _str = "";
-            switch (mode) {
-                case BIN:
-                    _str = Integer.toBinaryString(val);
-                    if (!inst_str.equals(_str)) {
-                        error_count++;
-                    }
-                    break;
-                case DEC:
-                    _str = Integer.toString(val);
-                    if (!inst_str.equals(_str)) {
-                        error_count++;
-                    }
-                    break;
-                case HEX:
-                    _str = "0x" + Integer.toHexString(val);
-                    if (!inst_str.equals(_str)) {
-                        error_count++;
-                    }
-                    break;
+            if (ref_mode != dst_mode) {
+                error_count++;
             }
             case_count++;
         }
@@ -228,8 +159,8 @@ public class CalcEngineTest {
     public void testSetDataType() {
         System.out.println("Test CalcEngine.setDataType");
         data_type_e[] dtypes = {
-            data_type_e.CHAR,
-            data_type_e.UCHAR,
+            data_type_e.BYTE,
+            data_type_e.UBYTE,
             data_type_e.SHORT,
             data_type_e.USHORT,
             data_type_e.INT,
