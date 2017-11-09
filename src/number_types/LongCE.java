@@ -20,7 +20,10 @@ public class LongCE extends NumberCE {
      * Min value for this type
      */
     final public double MIN_VALUE = Long.MIN_VALUE;
-
+    /**
+     * Count of the bytes
+     */
+    final public int BYTES = Long.BYTES;
     /**
      * Max length for hex-string
      */

@@ -7,9 +7,11 @@ package number_types;
 
 /**
  * Class SignedIntegerCE
+ *
  * @author JAudron
  */
-public class SignedIntegerCE extends IntegerCE{
+public class SignedIntegerCE extends IntegerCE {
+
     /**
      * Max value for this type
      */
@@ -18,6 +20,10 @@ public class SignedIntegerCE extends IntegerCE{
      * Min value for this type
      */
     final public double MIN_VALUE = Integer.MIN_VALUE;
+    /**
+     * Count of the bytes
+     */
+    final public int BYTES = Integer.BYTES;
 
     /**
      * Sets the value for the number
@@ -30,7 +36,7 @@ public class SignedIntegerCE extends IntegerCE{
         } else if (value < MIN_VALUE) {
             value = MIN_VALUE;
         }
-        
+
         super.setValue(value);
     }
 }

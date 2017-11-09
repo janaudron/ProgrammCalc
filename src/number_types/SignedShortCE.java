@@ -7,9 +7,11 @@ package number_types;
 
 /**
  * Class UnsignedShortCE
+ *
  * @author JAudron
  */
-public class SignedShortCE extends ShortCE{
+public class SignedShortCE extends ShortCE {
+
     /**
      * Max value for this type
      */
@@ -18,6 +20,10 @@ public class SignedShortCE extends ShortCE{
      * Min value for this type
      */
     final public double MIN_VALUE = Short.MIN_VALUE;
+    /**
+     * Count of the bytes
+     */
+    final public int BYTES = Short.BYTES;
 
     /**
      * Sets the value for the number
@@ -30,7 +36,7 @@ public class SignedShortCE extends ShortCE{
         } else if (value < MIN_VALUE) {
             value = MIN_VALUE;
         }
-        
+
         super.setValue(value);
     }
 }

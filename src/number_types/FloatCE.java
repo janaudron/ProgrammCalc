@@ -20,7 +20,10 @@ public class FloatCE extends NumberCE {
      * Min value for this type
      */
     final public double MIN_VALUE = -Float.MAX_VALUE;
-
+    /**
+     * Count of the bytes
+     */
+    final public int BYTES = Float.BYTES;
     /**
      * Max length for hex-string
      */

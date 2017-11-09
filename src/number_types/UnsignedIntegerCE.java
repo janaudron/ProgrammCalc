@@ -18,7 +18,10 @@ public class UnsignedIntegerCE extends IntegerCE{
      * Min value for this type
      */
     final public double MIN_VALUE = 0.0;
-
+    /**
+     * Count of the bytes
+     */
+    final public int BYTES = Integer.BYTES;
     /**
      * Sets the value for the number
      *

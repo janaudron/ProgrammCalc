@@ -20,6 +20,10 @@ public class DoubleCE extends NumberCE {
      * Min value for this type
      */
     final public double MIN_VALUE = -Double.MAX_VALUE;
+    /**
+     * Count of the bytes
+     */
+    final public int BYTES = Double.BYTES;
 
     /**
      * Sets the value for the number
