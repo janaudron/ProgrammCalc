@@ -39,4 +39,52 @@ public class UnsignedByteCE extends ByteCE {
 
         super.setValue(value);
     }
+
+    /**
+     * Decode hex string to number
+     *
+     * @param str - hex string
+     */
+    public void decodeHex(String str) {
+        if (str.startsWith("0X") || str.startsWith("0x")) {
+            str = str.substring(2);
+        }
+        if (str.startsWith("-") || str.startsWith("+")) {
+            str = str.substring(1);
+        }
+
+        int length = str.length();
+        if (length > 2 * BYTES) {
+            str = str.substring(length - 2 * BYTES);
+        }
+        double val = 0.0f;
+        try {
+            val = (double) Integer.parseInt(str, 16);
+        } catch (NumberFormatException e) {
+            val = getValue();
+        }
+        setValue(val);
+    }
+
+    /**
+     * Decode bin string to number
+     *
+     * @param str - bin string
+     */
+    public void decodeBin(String str) {
+        double val = super.decodeBin(str, 8 * BYTES, false);
+//        int length = str.length();
+//        if (length > 8 * BYTES) {
+//            str = str.substring(length - 8 * BYTES);
+//        }
+//        
+//        double val = 0;
+//        try {
+//            val = (double) Integer.parseInt(str, 2);
+//        } catch (NumberFormatException e) {
+//            val = this.getValue();
+//        }
+//        
+        this.setValue(val);
+    }
 }

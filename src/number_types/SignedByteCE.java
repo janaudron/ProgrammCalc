@@ -40,4 +40,46 @@ public class SignedByteCE extends ByteCE {
 
         super.setValue(value);
     }
+
+    /**
+     * Decode hex string to number
+     *
+     * @param str - hex string
+     */
+    public void decodeHex(String str) {
+        if (str.startsWith("0X") || str.startsWith("0x")) {
+            str = str.substring(2);
+        }
+        if (str.startsWith("-") || str.startsWith("+")) {
+            str = str.substring(1);
+        }
+
+        int length = str.length();
+        if (length > 2 * BYTES) {
+            str = str.substring(length - 2 * BYTES);
+        }
+
+//
+//        if (sbin.length() == 8) {
+//            sbin = "11111111" + sbin;
+//        }
+//        double val = 0;
+//        try {
+//            val = Short.parseShort(sbin, 2);
+//        } catch (NumberFormatException e) {
+//            val = this.getValue();
+//        }
+//
+//        this.setValue(val);
+    }
+
+    /**
+     * Decode bin string to number
+     *
+     * @param str - bin string
+     */
+    public void decodeBin(String str) {
+        double val = super.decodeBin(str, 8*BYTES, true);
+        this.setValue(val);
+    }
 }

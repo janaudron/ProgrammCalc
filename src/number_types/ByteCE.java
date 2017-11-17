@@ -5,11 +5,14 @@
  */
 package number_types;
 
+import java.util.Arrays;
+
 /**
  *
  * @author JAudron
  */
-public class ByteCE extends NumberCE {
+public abstract class ByteCE extends NumberCE {
+
     /**
      * Sets the value for the number
      *
@@ -34,6 +37,7 @@ public class ByteCE extends NumberCE {
         }
 
         hex_str = hex_str.substring(indx);
+        hex_str = hex_str.toUpperCase();
         hex_str = "0x" + hex_str;
 
         return hex_str;
@@ -53,13 +57,44 @@ public class ByteCE extends NumberCE {
         }
         return bin_str;
     }
-    
+
     /**
      * Get dec string of the number
-     * 
+     *
      * @return dec string of the number
      */
     public String toDec() {
-        return Integer.toString((int)super.getValue());
+        return Integer.toString((int) super.getValue());
     }
+
+    /**
+     * Set value from the dec string
+     *
+     * @param str - dec sring
+     */
+    public void decodeDec(String str) {
+        double val = 0;
+
+        try {
+            val = Double.parseDouble(str);
+        } catch (NumberFormatException | NullPointerException e) {
+            val = getValue();
+        }
+
+        setValue(val);
+    }
+
+    /**
+     * Decode hex string to number
+     *
+     * @param str - hex string
+     */
+    public abstract void decodeHex(String str);
+
+    /**
+     * Decode bin string to number
+     *
+     * @param str - bin string
+     */
+    public abstract void decodeBin(String str);
 }
