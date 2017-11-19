@@ -54,23 +54,17 @@ public class SignedByteCE extends ByteCE {
             str = str.substring(1);
         }
 
-        int length = str.length();
-        if (length > 2 * BYTES) {
-            str = str.substring(length - 2 * BYTES);
+        long ibin = 0;
+        try {
+            ibin = Long.parseLong(str, 0x10);
+        } catch (NumberFormatException e) {
+            double val = this.getValue();
+            this.setValue(val);
+            return;
         }
-
-//
-//        if (sbin.length() == 8) {
-//            sbin = "11111111" + sbin;
-//        }
-//        double val = 0;
-//        try {
-//            val = Short.parseShort(sbin, 2);
-//        } catch (NumberFormatException e) {
-//            val = this.getValue();
-//        }
-//
-//        this.setValue(val);
+        String bin = Long.toBinaryString(ibin);
+        double val = this.decodeBin(bin, 8 * BYTES, true);
+        this.setValue(val);
     }
 
     /**
@@ -79,7 +73,7 @@ public class SignedByteCE extends ByteCE {
      * @param str - bin string
      */
     public void decodeBin(String str) {
-        double val = super.decodeBin(str, 8*BYTES, true);
+        double val = super.decodeBin(str, 8 * BYTES, true);
         this.setValue(val);
     }
 }

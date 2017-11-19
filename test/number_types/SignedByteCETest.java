@@ -67,6 +67,162 @@ public class SignedByteCETest {
         }
     }
     
+    /**
+     * Test of decodeDec method, of class UnsignedByteCE.
+     */
+    @Test
+    public void test_decodeDec() {
+        System.out.println("Test UnsignedByteCE.decodeDec");
+
+        String[] str_buf = {
+            "-200",
+            "201",
+            "0x1",
+            "",
+            "56"
+        };
+
+        double[] ref_buf = {
+            -128,
+            127,
+            127,
+            127,
+            56
+        };
+
+        SignedByteCE sbyte = new SignedByteCE();
+        for (String str : str_buf) {
+            sbyte.decodeDec(str);
+            double dst = sbyte.getValue();
+            if (dst != ref_buf[case_count]) {
+                error_count++;
+            }
+            case_count++;
+        }
+    }
+
+    /**
+     * Test of decodeHex method, of class UnsignedByteCE.
+     */
+    @Test
+    public void test_decodeHex() {
+        System.out.println("Test UnsignedByteCE.decodeHex");
+
+        String[] str_buf = {
+            "0",
+            "-FF",
+            "0x7f",
+            "",
+            "0.1",
+            "0xff",
+            "0x3ff"
+        };
+
+        double[] ref_buf = {
+            0,
+            -1,
+            127,
+            127,
+            127,
+            -1,
+            -1
+        };
+
+        SignedByteCE sbyte = new SignedByteCE();
+        for (String str : str_buf) {
+            sbyte.decodeHex(str);
+            double dst = sbyte.getValue();
+            if (dst != ref_buf[case_count]) {
+                error_count++;
+            }
+            case_count++;
+        }
+    }
+
+    /**
+     * Test of decodeBin method, of class UnsignedByteCE.
+     */
+    @Test
+    public void test_decodeBin() {
+        System.out.println("Test UnsignedByteCE.decodeBin");
+
+        String[] str_buf = {
+            "01111111",
+            "1111111",
+            "11111111",
+            "0",
+            "",
+            "0.1",
+            "111111111"
+        };
+
+        double[] ref_buf = {
+            127,
+            127,
+            -1,
+            0,
+            0,
+            0,
+            -1
+        };
+
+        SignedByteCE sbyte = new SignedByteCE();
+        for (String str : str_buf) {
+            sbyte.decodeBin(str);
+            double dst = sbyte.getValue();
+            if (dst != ref_buf[case_count]) {
+                error_count++;
+            }
+            case_count++;
+        }
+    }
+
+    /**
+     * Test of toHex/toDec/toBin method, of class UnsignedByteCE.
+     */
+    @Test
+    public void test_toStr() {
+        System.out.println("Test UnsignedByteCE.decodeDec");
+        System.out.println("     UnsignedByteCE.decodeHex");
+        System.out.println("     UnsignedByteCE.decodeBin");
+
+        double[] src_buf = {
+            0,
+            120,
+            211
+        };
+
+        String[] ref_buf = {
+            "0", "0x0", "0",
+            "120", "0x78", "1111000",
+            "211", "0xD3", "11010011"
+        };
+
+        String dst;
+        UnsignedByteCE ubyte = new UnsignedByteCE();
+        for (Double val : src_buf) {
+            ubyte.setValue(val);
+
+            dst = ubyte.toDec();
+            if (!dst.equals(ref_buf[case_count])) {
+                error_count++;
+            }
+            case_count++;
+
+            dst = ubyte.toHex();
+            if (!dst.equals(ref_buf[case_count])) {
+                error_count++;
+            }
+            case_count++;
+
+            dst = ubyte.toBin();
+            if (!dst.equals(ref_buf[case_count])) {
+                error_count++;
+            }
+            case_count++;
+        }
+    }
+    
     private void case_result(int error_count, int case_count) {
         if (error_count > 0) {
             fail("Errors" + error_count + "/" + case_count + "\n");
