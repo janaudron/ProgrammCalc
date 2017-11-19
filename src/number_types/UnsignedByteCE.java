@@ -53,17 +53,18 @@ public class UnsignedByteCE extends ByteCE {
             str = str.substring(1);
         }
 
-        int length = str.length();
-        if (length > 2 * BYTES) {
-            str = str.substring(length - 2 * BYTES);
-        }
-        double val = 0.0f;
+        long ival = 0;
         try {
-            val = (double) Integer.parseInt(str, 16);
+            ival = Long.parseLong(str, 16);
         } catch (NumberFormatException e) {
-            val = getValue();
+            double val = this.getValue();
+            this.setValue(val);
+            return;
         }
-        setValue(val);
+        
+        String bin = Long.toBinaryString(ival);
+        double val = this.decodeBin(bin, 8*BYTES, false);
+        this.setValue(val);
     }
 
     /**
