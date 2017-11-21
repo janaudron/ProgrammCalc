@@ -30,7 +30,7 @@ public abstract class NumberCE {
     /**
      * Sign flag
      */
-    private boolean signed;
+    private boolean signed = false;
 
     /**
      * Max value for current type
