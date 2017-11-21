@@ -10,7 +10,7 @@ package number_types;
  *
  * @author JAudron
  */
-public class UnsignedShortCE extends ShortCE {
+public class UnsignedShortCE extends NumberCE {
 
     /**
      * Max value for this type
@@ -24,19 +24,13 @@ public class UnsignedShortCE extends ShortCE {
      * Count of the bytes
      */
     final public int BYTES = Short.BYTES;
-
+    
     /**
-     * Sets the value for the number
-     *
-     * @param value - settable value
+     * Constractor
      */
-    public void setValue(double value) {
-        if (value > MAX_VALUE) {
-            value = MAX_VALUE;
-        } else if (value < MIN_VALUE) {
-            value = MIN_VALUE;
-        }
-
-        super.setValue(value);
-    }
+    public UnsignedShortCE() {
+        super.setSize(BYTES);
+        super.setMaxValue(MAX_VALUE);
+        super.setMinValue(MIN_VALUE);
+    }    
 }
