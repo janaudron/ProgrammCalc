@@ -13,9 +13,76 @@ package number_types;
 public abstract class NumberCE {
 
     /**
-     * num
+     * The bits number in the byte
+     */
+    public final int BITS_IN_BYTE = 8;
+
+    /**
+     * Number of the bytes
+     */
+    private int bytes;
+
+    /**
+     * Number of the bites
+     */
+    private int bits;
+
+    /**
+     * Sign flag
+     */
+    private boolean signed;
+
+    /**
+     * Max value for current type
+     */
+    private double max_value;
+
+    /**
+     * Min value for current type
+     */
+    private double min_value;
+
+    /**
+     * Value of number
      */
     private double num = 0.0;
+
+    /**
+     * Set bytes and bits number
+     *
+     * @param nbytes - number of the bytes
+     */
+    protected void setSize(int nbytes) {
+        this.bits = nbytes * BITS_IN_BYTE;
+        this.bytes = nbytes;
+    }
+
+    /**
+     * Set sign flag
+     *
+     * @param sign
+     */
+    protected void setSign() {
+        this.signed = true;
+    }
+
+    /**
+     * Set max value for current type
+     *
+     * @param max - max value
+     */
+    protected void setMaxValue(double max) {
+        this.max_value = max;
+    }
+
+    /**
+     * Set min value for current type
+     *
+     * @param min - min value
+     */
+    protected void setMinValue(double min) {
+        this.min_value = min;
+    }
 
     /**
      * Sets the value for the number
@@ -23,6 +90,12 @@ public abstract class NumberCE {
      * @param value - settable value
      */
     public void setValue(double value) {
+        if (value > max_value) {
+            value = max_value;
+        } else if (value < min_value) {
+            value = min_value;
+        }
+
         this.num = value;
     }
 
@@ -40,42 +113,101 @@ public abstract class NumberCE {
      *
      * @return hex string
      */
-    public abstract String toHex();
+    public String toHex() {
+        long val = (long) this.num;
+
+        String str = Long.toHexString(val);
+        int length = str.length();
+        if (length > 2 * this.bytes) {
+            str = str.substring(length - 2 * this.bytes, length);
+        }
+        str = str.toUpperCase();
+        str = "0x" + str;
+
+        return str;
+    }
 
     /**
      * Get bin string
      *
      * @return bin string
      */
-    public abstract String toBin();
+    public String toBin() {
+        long val = (long) this.num;
+
+        String str = Long.toBinaryString(val);
+        int length = str.length();
+        if (length > this.bits) {
+            str = str.substring(length - this.bits, length);
+        }
+        return str;
+    }
 
     /**
      * Get dec string
      *
      * @return dec string
      */
-    public abstract String toDec();
+    public String toDec() {
+        long val = (long) this.num;
+
+        String str = Long.toString(val);
+        return str;
+    }
 
     /**
      * Decode dec string to number
      *
      * @param str - dec string
      */
-    public abstract void decodeDec(String str);
+    public void decodeDec(String str) {
+        double val;
+
+        try {
+            val = Double.parseDouble(str);
+        } catch (NumberFormatException | NullPointerException e) {
+            val = getValue();
+        }
+
+        setValue(val);
+    }
 
     /**
      * Decode hex string to number
      *
      * @param str - hex string
      */
-    public abstract void decodeHex(String str);
+    public void decodeHex(String str) {
+        if (str.startsWith("0X") || str.startsWith("0x")) {
+            str = str.substring(2);
+        }
+        if (str.startsWith("-") || str.startsWith("+")) {
+            str = str.substring(1);
+        }
+
+        long ibin = 0;
+        try {
+            ibin = Long.parseLong(str, 0x10);
+        } catch (NumberFormatException e) {
+            double val = this.getValue();
+            this.setValue(val);
+            return;
+        }
+        String bin = Long.toBinaryString(ibin);
+        double val = this.decode_bin(bin, this.bits, this.signed);
+        this.setValue(val);
+    }
 
     /**
      * Decode bin string to number
      *
      * @param str - bin string
      */
-    public abstract void decodeBin(String str);
+    public void decodeBin(String str) {
+        double val = decode_bin(str, this.bits, this.signed);
+
+        this.setValue(val);
+    }
 
     /**
      * Decode bin string to number
@@ -85,7 +217,7 @@ public abstract class NumberCE {
      * @param signed - switcher signed/unsigned
      * @return number
      */
-    public final double decodeBin(String str, int num_bits, boolean signed) {
+    private double decode_bin(String str, int num_bits, boolean signed) {
         int length = str.length();
         if (length == 0) {
             return this.getValue();
@@ -107,13 +239,16 @@ public abstract class NumberCE {
         }
 
         int val = 0;
+        int indx_start = 0;
+        int tail = 1;
         if ((bin[0] & 1) == 1 && length == num_bits && signed) {
             val = 1 << (num_bits - 1);
             val *= -1;
-            length--;
+            tail++;
+            indx_start++;
         }
-        int multi = 1 << length - 1;
-        for (int i = 0; i < length; i++) {
+        int multi = 1 << length - tail;
+        for (int i = indx_start; i < length; i++) {
             val += multi * bin[i];
             multi >>= 1;
         }

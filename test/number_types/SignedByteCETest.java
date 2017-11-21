@@ -68,11 +68,11 @@ public class SignedByteCETest {
     }
     
     /**
-     * Test of decodeDec method, of class UnsignedByteCE.
+     * Test of decodeDec method, of class SignedByteCE.
      */
     @Test
     public void test_decodeDec() {
-        System.out.println("Test UnsignedByteCE.decodeDec");
+        System.out.println("Test SignedByteCE.decodeDec");
 
         String[] str_buf = {
             "-200",
@@ -102,11 +102,11 @@ public class SignedByteCETest {
     }
 
     /**
-     * Test of decodeHex method, of class UnsignedByteCE.
+     * Test of decodeHex method, of class SignedByteCE.
      */
     @Test
     public void test_decodeHex() {
-        System.out.println("Test UnsignedByteCE.decodeHex");
+        System.out.println("Test SignedByteCE.decodeHex");
 
         String[] str_buf = {
             "0",
@@ -140,11 +140,11 @@ public class SignedByteCETest {
     }
 
     /**
-     * Test of decodeBin method, of class UnsignedByteCE.
+     * Test of decodeBin method, of class SignedByteCE.
      */
     @Test
     public void test_decodeBin() {
-        System.out.println("Test UnsignedByteCE.decodeBin");
+        System.out.println("Test SignedByteCE.decodeBin");
 
         String[] str_buf = {
             "01111111",
@@ -178,44 +178,46 @@ public class SignedByteCETest {
     }
 
     /**
-     * Test of toHex/toDec/toBin method, of class UnsignedByteCE.
+     * Test of toHex/toDec/toBin method, of class SignedByteCE.
      */
     @Test
     public void test_toStr() {
-        System.out.println("Test UnsignedByteCE.decodeDec");
-        System.out.println("     UnsignedByteCE.decodeHex");
-        System.out.println("     UnsignedByteCE.decodeBin");
+        System.out.println("Test SignedByteCE.decodeDec");
+        System.out.println("     SignedByteCE.decodeHex");
+        System.out.println("     SignedByteCE.decodeBin");
 
         double[] src_buf = {
             0,
             120,
-            211
+            211,
+            -78
         };
 
         String[] ref_buf = {
             "0", "0x0", "0",
             "120", "0x78", "1111000",
-            "211", "0xD3", "11010011"
+            "127", "0x7F", "1111111",
+            "-78", "0xB2", "10110010"
         };
 
         String dst;
-        UnsignedByteCE ubyte = new UnsignedByteCE();
+        SignedByteCE sbyte = new SignedByteCE();
         for (Double val : src_buf) {
-            ubyte.setValue(val);
+            sbyte.setValue(val);
 
-            dst = ubyte.toDec();
+            dst = sbyte.toDec();
             if (!dst.equals(ref_buf[case_count])) {
                 error_count++;
             }
             case_count++;
 
-            dst = ubyte.toHex();
+            dst = sbyte.toHex();
             if (!dst.equals(ref_buf[case_count])) {
                 error_count++;
             }
             case_count++;
 
-            dst = ubyte.toBin();
+            dst = sbyte.toBin();
             if (!dst.equals(ref_buf[case_count])) {
                 error_count++;
             }
