@@ -238,16 +238,16 @@ public abstract class NumberCE {
             bin[i] &= 1;
         }
 
-        int val = 0;
+        long val = 0;
         int indx_start = 0;
         int tail = 1;
         if ((bin[0] & 1) == 1 && length == num_bits && signed) {
-            val = 1 << (num_bits - 1);
+            val = 1L << (num_bits - 1);
             val *= -1;
             tail++;
             indx_start++;
         }
-        int multi = 1 << length - tail;
+        long multi = 1L << length - tail;
         for (int i = indx_start; i < length; i++) {
             val += multi * bin[i];
             multi >>= 1;

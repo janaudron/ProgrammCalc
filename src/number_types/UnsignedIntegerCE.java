@@ -7,9 +7,11 @@ package number_types;
 
 /**
  * Class UnsignedIntegerCE
+ *
  * @author JAudron
  */
-public class UnsignedIntegerCE extends IntegerCE{
+public class UnsignedIntegerCE extends NumberCE {
+
     /**
      * Max value for this type
      */
@@ -22,18 +24,13 @@ public class UnsignedIntegerCE extends IntegerCE{
      * Count of the bytes
      */
     final public int BYTES = Integer.BYTES;
+
     /**
-     * Sets the value for the number
-     *
-     * @param value - settable value
+     * Constructor
      */
-    public void setValue(double value) {
-        if (value > MAX_VALUE) {
-            value = MAX_VALUE;
-        } else if (value < MIN_VALUE) {
-            value = MIN_VALUE;
-        }
-        
-        super.setValue(value);
-    }
+    public UnsignedIntegerCE(){
+        super.setSize(BYTES);
+        super.setMaxValue(MAX_VALUE);
+        super.setMinValue(MIN_VALUE);
+    }    
 }
