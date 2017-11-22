@@ -10,7 +10,7 @@ package number_types;
  *
  * @author JAudron
  */
-public class SignedIntegerCE extends IntegerCE {
+public class SignedIntegerCE extends NumberCE {
 
     /**
      * Max value for this type
@@ -26,17 +26,12 @@ public class SignedIntegerCE extends IntegerCE {
     final public int BYTES = Integer.BYTES;
 
     /**
-     * Sets the value for the number
-     *
-     * @param value - settable value
+     * Constructor
      */
-    public void setValue(double value) {
-        if (value > MAX_VALUE) {
-            value = MAX_VALUE;
-        } else if (value < MIN_VALUE) {
-            value = MIN_VALUE;
-        }
-
-        super.setValue(value);
-    }
+    public SignedIntegerCE(){
+        super.setSize(BYTES);
+        super.setSign();
+        super.setMaxValue(MAX_VALUE);
+        super.setMinValue(MIN_VALUE);
+    }    
 }
