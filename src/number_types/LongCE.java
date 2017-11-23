@@ -5,6 +5,8 @@
  */
 package number_types;
 
+import java.math.BigInteger;
+
 /**
  * Class LongCE
  *
@@ -24,70 +26,66 @@ public class LongCE extends NumberCE {
      * Count of the bytes
      */
     final public int BYTES = Long.BYTES;
-    /**
-     * Max length for hex-string
-     */
-    private final int HEX_LENGTH = 2 * Long.BYTES;
 
-    /**
-     * Max length for bin_string
-     */
-    private final int BIN_LENGTH = 8 * Long.BYTES;
-
-    /**
-     * Sets the value for the number
-     *
-     * @param value - settable value
-     */
-    public void setValue(double value) {
-        if (value > MAX_VALUE) {
-            value = MAX_VALUE;
-        } else if (value < MIN_VALUE) {
-            value = MIN_VALUE;
-        }
-
-        super.setValue(value);
+    public LongCE() {
+        super.setSize(BYTES);
+        super.setSign();
+        super.setMaxValue(MAX_VALUE);
+        super.setMinValue(MIN_VALUE);
     }
 
     /**
-     * Get hex string of the number
+     * Decode hex string to number
      *
-     * @return string of the number
+     * @param str - hex string
      */
-    public String toHex() {
-        String hex_str = new String();
-        hex_str = Long.toHexString((long) super.getValue());
-        int len_str = hex_str.length();
-        if (len_str > HEX_LENGTH) {
-            hex_str = hex_str.substring(len_str - HEX_LENGTH);
+    public void decodeHex(String str) {
+        if (str.startsWith("-") || str.startsWith("+")) {
+            str = str.substring(1);
         }
+        if (str.startsWith("0X") || str.startsWith("0x")) {
+            str = str.substring(2);
+        }
+        
+        str = to_bin(str);
 
-        hex_str = "0x" + hex_str;
-
-        return hex_str;
+        super.decodeBin(str);
     }
 
-    /**
-     * Get bin string of the number
-     *
-     * @return string of the number
-     */
-    public String toBin() {
-        String bin_str = new String();
-        bin_str = Long.toBinaryString((long) super.getValue());
-        int len_str = bin_str.length();
-        if (len_str > BIN_LENGTH) {
-            bin_str = bin_str.substring(len_str - BIN_LENGTH);
+    private String to_bin(String str) {
+        int length = str.length();
+        if (length > 2 * BYTES) {
+            str = str.substring(length - 2 * BYTES);
+            length = 2 * BYTES;
         }
-        return bin_str;
-    }
 
-    /**
-     * Get dec string of the number
-     *
-     * @return string of the number
-     */
-    public String toDec() {
-        return Long.toString((long) super.getValue());
+        if (length == 2 * BYTES) {
+            String a = str.substring(0, 2);
+            String b = str.substring(2, length);
+
+            long tmp = 0;
+            try {
+                tmp = Long.parseLong(b, 0x10);
+            } catch (NumberFormatException e) {
+                return "";
+            }
+
+            String b_bin = Long.toBinaryString(tmp);
+            int b_length = b_bin.length();
+            for (int i = 0; i < 8 * (BYTES - 1) - b_length; i++) {
+                b_bin = "0" + b_bin;
+            }
+
+            try {
+                tmp = Long.parseLong(a, 0x10);
+            } catch (NumberFormatException e) {
+                return "";
+            }
+            String a_bin = Long.toBinaryString(tmp);
+
+            str = a_bin + b_bin;
+        }
+        
+        return str;
     }
 }
