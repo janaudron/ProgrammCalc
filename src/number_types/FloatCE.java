@@ -24,29 +24,15 @@ public class FloatCE extends NumberCE {
      * Count of the bytes
      */
     final public int BYTES = Float.BYTES;
-    /**
-     * Max length for hex-string
-     */
-    private final int HEX_LENGTH = 2 * Float.BYTES;
 
     /**
-     * Max length for bin_string
+     * Constructor
      */
-    private final int BIN_LENGTH = 8 * Float.BYTES;
-
-    /**
-     * Sets the value for the number
-     *
-     * @param value - settable value
-     */
-    public void setValue(double value) {
-        if (value > MAX_VALUE) {
-            value = MAX_VALUE;
-        } else if (value < MIN_VALUE) {
-            value = MIN_VALUE;
-        }
-
-        super.setValue(value);
+    public FloatCE() {
+        super.setSize(BYTES);
+        super.setSign();
+        super.setMaxValue(MAX_VALUE);
+        super.setMinValue(MIN_VALUE);
     }
 
     /**
@@ -57,10 +43,7 @@ public class FloatCE extends NumberCE {
     public String toHex() {
         int int_bits = Float.floatToIntBits((float) super.getValue());
         String hex_str = Integer.toHexString(int_bits);
-//        int len_str = hex_str.length();
-//        if (len_str > HEX_LENGTH) {
-//            hex_str = hex_str.substring(len_str - HEX_LENGTH);
-//        }
+        hex_str = hex_str.toUpperCase();
 
         hex_str = "0x" + hex_str;
 
@@ -87,4 +70,82 @@ public class FloatCE extends NumberCE {
     public String toDec() {
         return Float.toString((float) super.getValue());
     }
+
+    /**
+     * Set value from the dec string
+     *
+     * @param str - dec sring
+     */
+    public void decodeDec(String str) {
+        double val = 0;
+        try {
+            val = Float.valueOf(str);
+        } catch (NumberFormatException e) {
+            val = super.getValue();
+        }
+        super.setValue(val);
+    }
+
+    /**
+     * Decode hex string to number
+     *
+     * @param str - hex string
+     */
+    public void decodeHex(String str) {
+        if (str.startsWith("0X") || str.startsWith("0x")) {
+            str = str.substring(2);
+        }
+        if (str.startsWith("-") || str.startsWith("+")) {
+            str = str.substring(1);
+        }
+        
+        int length = str.length();
+        if (length == 0) {
+            return;
+        }
+
+        if (length > 2*BYTES) {
+            str = str.substring(length - 2*BYTES);
+            length = str.length();
+        }
+        
+        long tmp = 0;
+        try {
+            tmp = Long.parseLong(str, 0x10);
+        } catch (NumberFormatException e){
+            return;
+        }
+        double val = (double)Float.intBitsToFloat((int)tmp);
+        
+        super.setValue(val);
+
+    }
+    
+    /**
+     * Decode bin string to number
+     *
+     * @param str - bin string
+     */
+    public void decodeBin(String str) {
+        int length = str.length();
+        if (length == 0) {
+            return;
+        }
+
+        if (length > 8*BYTES) {
+            str = str.substring(length - 8*BYTES);
+            length = str.length();
+        }
+        
+        long tmp = 0;
+        try {
+            tmp = Long.parseLong(str, 0x2);
+        } catch (NumberFormatException e){
+            return;
+        }
+        double val = (double)Float.intBitsToFloat((int)tmp);
+        
+        super.setValue(val);
+    }
+
 }
