@@ -26,18 +26,13 @@ public class DoubleCE extends NumberCE {
     final public int BYTES = Double.BYTES;
 
     /**
-     * Sets the value for the number
-     *
-     * @param value - settable value
+     * Constructor
      */
-    public void setValue(double value) {
-        if (value > MAX_VALUE) {
-            value = MAX_VALUE;
-        } else if (value < MIN_VALUE) {
-            value = MIN_VALUE;
-        }
-
-        super.setValue(value);
+    public DoubleCE() {
+        super.setSize(BYTES);
+        super.setSign();
+        super.setMaxValue(MAX_VALUE);
+        super.setMinValue(MIN_VALUE);
     }
 
     /**
@@ -49,6 +44,7 @@ public class DoubleCE extends NumberCE {
         long long_bits = Double.doubleToLongBits((double) super.getValue());
         String hex_str = Long.toHexString(long_bits);
 
+        hex_str = hex_str.toUpperCase();
         hex_str = "0x" + hex_str;
 
         return hex_str;
@@ -72,5 +68,54 @@ public class DoubleCE extends NumberCE {
      */
     public String toDec() {
         return Double.toString(super.getValue());
+    }
+
+    /**
+     * Set value from the dec string
+     *
+     * @param str - dec sring
+     */
+    public void decodeDec(String str) {
+        double val = 0;
+        try {
+            val = Double.parseDouble(str);
+        } catch (NumberFormatException e) {
+            return;
+        }
+        super.setValue(val);
+    }
+
+    /**
+     * Decode hex string to number
+     *
+     * @param str - hex string
+     */
+    public void decodeHex(String str) {
+        LongCE lval = new LongCE();
+        
+        //TODO exception
+        lval.decodeHex(str);
+        long tmp = (long)lval.getValue();
+        
+        double val = (double) Double.longBitsToDouble(tmp);
+
+        super.setValue(val);
+    }
+
+    /**
+     * Decode bin string to number
+     *
+     * @param str - bin string
+     */
+    public void decodeBin(String str) {
+        LongCE lval = new LongCE();
+        
+        //TODO exception
+        lval.decodeBin(str);
+        long tmp = (long)lval.getValue();
+        
+        double val = (double) Double.longBitsToDouble(tmp);
+
+        super.setValue(val);
     }
 }
