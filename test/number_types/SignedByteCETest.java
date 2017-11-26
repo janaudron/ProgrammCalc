@@ -92,7 +92,12 @@ public class SignedByteCETest {
 
         SignedByteCE sbyte = new SignedByteCE();
         for (String str : str_buf) {
-            sbyte.decodeDec(str);
+            try {
+                sbyte.decodeDec(str);
+            } catch (NumberFormatException | NullPointerException e){
+                case_count++;
+                continue;
+            }
             double dst = sbyte.getValue();
             if (dst != ref_buf[case_count]) {
                 error_count++;
@@ -130,7 +135,13 @@ public class SignedByteCETest {
 
         SignedByteCE sbyte = new SignedByteCE();
         for (String str : str_buf) {
-            sbyte.decodeHex(str);
+            try {
+                sbyte.decodeHex(str);
+            } catch (NumberFormatException | NullPointerException e){
+                case_count++;
+                continue;
+            }
+            
             double dst = sbyte.getValue();
             if (dst != ref_buf[case_count]) {
                 error_count++;
@@ -168,7 +179,12 @@ public class SignedByteCETest {
 
         SignedByteCE sbyte = new SignedByteCE();
         for (String str : str_buf) {
-            sbyte.decodeBin(str);
+            try  {
+                sbyte.decodeBin(str);
+            } catch (NumberFormatException | NullPointerException e){
+                case_count++;
+                continue;
+            }
             double dst = sbyte.getValue();
             if (dst != ref_buf[case_count]) {
                 error_count++;

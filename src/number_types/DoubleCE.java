@@ -75,12 +75,15 @@ public class DoubleCE extends NumberCE {
      *
      * @param str - dec sring
      */
-    public void decodeDec(String str) {
+    public void decodeDec(String str) 
+            throws NullPointerException, NumberFormatException {
         double val = 0;
         try {
             val = Double.parseDouble(str);
         } catch (NumberFormatException e) {
-            return;
+            throw new NumberFormatException();
+        } catch (NullPointerException e){
+            throw new NullPointerException();
         }
         super.setValue(val);
     }
@@ -90,11 +93,18 @@ public class DoubleCE extends NumberCE {
      *
      * @param str - hex string
      */
-    public void decodeHex(String str) {
+    public void decodeHex(String str) 
+            throws NumberFormatException, NullPointerException{
         LongCE lval = new LongCE();
+
+        try {
+            lval.decodeHex(str);
+        } catch (NumberFormatException e) {
+            throw new NumberFormatException();
+        } catch (NullPointerException e) {
+            throw new NullPointerException();
+        }
         
-        //TODO exception
-        lval.decodeHex(str);
         long tmp = (long)lval.getValue();
         
         double val = (double) Double.longBitsToDouble(tmp);
@@ -107,11 +117,18 @@ public class DoubleCE extends NumberCE {
      *
      * @param str - bin string
      */
-    public void decodeBin(String str) {
+    public void decodeBin(String str) 
+            throws NullPointerException, NumberFormatException{
         LongCE lval = new LongCE();
         
-        //TODO exception
-        lval.decodeBin(str);
+        try {
+            lval.decodeBin(str);
+        } catch (NullPointerException e) {
+            throw new NullPointerException();
+        } catch (NumberFormatException e){
+            throw new NumberFormatException();
+        }
+        
         long tmp = (long)lval.getValue();
         
         double val = (double) Double.longBitsToDouble(tmp);

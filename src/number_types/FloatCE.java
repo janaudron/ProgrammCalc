@@ -76,12 +76,17 @@ public class FloatCE extends NumberCE {
      *
      * @param str - dec sring
      */
-    public void decodeDec(String str) {
+    public void decodeDec(String str) 
+            throws NumberFormatException, NullPointerException {
+        if (str.length() == 0) {
+            throw new NullPointerException();
+        }
+        
         double val = 0;
         try {
             val = Float.valueOf(str);
         } catch (NumberFormatException e) {
-            val = super.getValue();
+            throw new NumberFormatException();
         }
         super.setValue(val);
     }
@@ -91,7 +96,8 @@ public class FloatCE extends NumberCE {
      *
      * @param str - hex string
      */
-    public void decodeHex(String str) {
+    public void decodeHex(String str) 
+            throws NumberFormatException, NullPointerException {
         if (str.startsWith("0X") || str.startsWith("0x")) {
             str = str.substring(2);
         }
@@ -101,7 +107,7 @@ public class FloatCE extends NumberCE {
         
         int length = str.length();
         if (length == 0) {
-            return;
+            throw new NullPointerException();
         }
 
         if (length > 2*BYTES) {
@@ -113,12 +119,11 @@ public class FloatCE extends NumberCE {
         try {
             tmp = Long.parseLong(str, 0x10);
         } catch (NumberFormatException e){
-            return;
+            throw new NumberFormatException();
         }
         double val = (double)Float.intBitsToFloat((int)tmp);
         
         super.setValue(val);
-
     }
     
     /**
@@ -126,10 +131,11 @@ public class FloatCE extends NumberCE {
      *
      * @param str - bin string
      */
-    public void decodeBin(String str) {
+    public void decodeBin(String str) 
+            throws NumberFormatException, NullPointerException {
         int length = str.length();
         if (length == 0) {
-            return;
+            throw new NullPointerException();
         }
 
         if (length > 8*BYTES) {
@@ -141,11 +147,10 @@ public class FloatCE extends NumberCE {
         try {
             tmp = Long.parseLong(str, 0x2);
         } catch (NumberFormatException e){
-            return;
+            throw new NumberFormatException();
         }
         double val = (double)Float.intBitsToFloat((int)tmp);
         
         super.setValue(val);
     }
-
 }

@@ -160,16 +160,19 @@ public abstract class NumberCE {
      *
      * @param str - dec string
      */
-    public void decodeDec(String str) {
+    public void decodeDec(String str) 
+            throws NumberFormatException, NullPointerException {
         double val;
 
         try {
             val = Double.parseDouble(str);
-        } catch (NumberFormatException | NullPointerException e) {
-            val = getValue();
+        } catch (NumberFormatException e) {
+            throw new NumberFormatException();
+        } catch (NullPointerException e) {
+            throw new NullPointerException();
         }
 
-        setValue(val);
+        this.setValue(val);
     }
 
     /**
@@ -177,7 +180,8 @@ public abstract class NumberCE {
      *
      * @param str - hex string
      */
-    public void decodeHex(String str) {
+    public void decodeHex(String str) 
+            throws NumberFormatException, NullPointerException {
         if (str.startsWith("0X") || str.startsWith("0x")) {
             str = str.substring(2);
         }
@@ -185,14 +189,17 @@ public abstract class NumberCE {
             str = str.substring(1);
         }
 
+        if (str.length() == 0) {
+            throw new NullPointerException();
+        }
+
         long ibin = 0;
         try {
             ibin = Long.parseLong(str, 0x10);
         } catch (NumberFormatException e) {
-            double val = this.getValue();
-            this.setValue(val);
-            return;
+            throw new NumberFormatException();
         }
+
         String bin = Long.toBinaryString(ibin);
         double val = this.decode_bin(bin, this.bits, this.signed);
         this.setValue(val);
@@ -203,7 +210,8 @@ public abstract class NumberCE {
      *
      * @param str - bin string
      */
-    public void decodeBin(String str) {
+    public void decodeBin(String str) 
+            throws NullPointerException, NumberFormatException{
         double val = decode_bin(str, this.bits, this.signed);
 
         this.setValue(val);
@@ -217,10 +225,11 @@ public abstract class NumberCE {
      * @param signed - switcher signed/unsigned
      * @return number
      */
-    private double decode_bin(String str, int num_bits, boolean signed) {
+    private double decode_bin(String str, int num_bits, boolean signed)
+            throws NullPointerException, NumberFormatException {
         int length = str.length();
         if (length == 0) {
-            return this.getValue();
+            throw new NullPointerException();
         }
 
         if (length > num_bits) {
@@ -233,7 +242,7 @@ public abstract class NumberCE {
 
         for (int i = 0; i < bin.length; i++) {
             if (bin[i] != 48 && bin[i] != 49) {
-                return this.getValue();
+                throw new NumberFormatException();
             }
             bin[i] &= 1;
         }

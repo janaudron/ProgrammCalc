@@ -93,7 +93,13 @@ public class UnsignedShortCETest {
 
         UnsignedShortCE sshort = new UnsignedShortCE();
         for (String str : str_buf) {
-            sshort.decodeDec(str);
+            try {
+                sshort.decodeDec(str);
+            } catch (NumberFormatException | NullPointerException e){
+                case_count++;
+                continue;
+            }
+            
             double dst = sshort.getValue();
             if (dst != ref_buf[case_count]) {
                 error_count++;
@@ -131,7 +137,13 @@ public class UnsignedShortCETest {
 
         UnsignedShortCE num = new UnsignedShortCE();
         for (String str : str_buf) {
-            num.decodeHex(str);
+            try {
+                num.decodeHex(str);
+            } catch (NumberFormatException | NullPointerException e){
+                case_count++;
+                continue;
+            }
+            
             double dst = num.getValue();
             if (dst != ref_buf[case_count]) {
                 error_count++;
@@ -169,7 +181,13 @@ public class UnsignedShortCETest {
 
         UnsignedShortCE num = new UnsignedShortCE();
         for (String str : str_buf) {
-            num.decodeBin(str);
+            try {
+                num.decodeBin(str);
+            } catch (NumberFormatException | NullPointerException e){
+                case_count++;
+                continue;
+            }
+            
             double dst = num.getValue();
             if (dst != ref_buf[case_count]) {
                 error_count++;

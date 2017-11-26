@@ -92,7 +92,13 @@ public class UnsignedIntegerCETest {
 
         UnsignedIntegerCE num = new UnsignedIntegerCE();
         for (String str : str_buf) {
-            num.decodeDec(str);
+            try {
+                num.decodeDec(str);
+            } catch (NumberFormatException | NullPointerException e){
+                case_count++;
+                continue;
+            }
+            
             double dst = num.getValue();
             if (dst != ref_buf[case_count]) {
                 error_count++;
@@ -130,7 +136,13 @@ public class UnsignedIntegerCETest {
 
         UnsignedIntegerCE num = new UnsignedIntegerCE();
         for (String str : str_buf) {
-            num.decodeHex(str);
+            try {
+                num.decodeHex(str);
+            } catch (NumberFormatException | NullPointerException e){
+                case_count++;
+                continue;
+            }
+            
             double dst = num.getValue();
             if (dst != ref_buf[case_count]) {
                 error_count++;
@@ -168,7 +180,12 @@ public class UnsignedIntegerCETest {
 
         UnsignedIntegerCE num = new UnsignedIntegerCE();
         for (String str : str_buf) {
-            num.decodeBin(str);
+            try {
+                num.decodeBin(str);
+            } catch (NumberFormatException | NullPointerException e){
+                case_count++;
+                continue;
+            }
             double dst = num.getValue();
             if (dst != ref_buf[case_count]) {
                 error_count++;

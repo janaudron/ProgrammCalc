@@ -93,7 +93,13 @@ public class UnsignedByteCETest {
 
         UnsignedByteCE ubyte = new UnsignedByteCE();
         for (String str : str_buf) {
-            ubyte.decodeDec(str);
+            try {
+                ubyte.decodeDec(str);
+            } catch (NumberFormatException | NullPointerException e){
+                case_count++;
+                continue;
+            }
+            
             double dst = ubyte.getValue();
             if (dst != ref_buf[case_count]) {
                 error_count++;
@@ -131,7 +137,12 @@ public class UnsignedByteCETest {
 
         UnsignedByteCE ubyte = new UnsignedByteCE();
         for (String str : str_buf) {
-            ubyte.decodeHex(str);
+            try {
+                ubyte.decodeHex(str);
+            } catch (NumberFormatException | NullPointerException e){
+                case_count++;
+                continue;
+            }
             double dst = ubyte.getValue();
             if (dst != ref_buf[case_count]) {
                 error_count++;
@@ -169,7 +180,13 @@ public class UnsignedByteCETest {
 
         UnsignedByteCE ubyte = new UnsignedByteCE();
         for (String str : str_buf) {
-            ubyte.decodeBin(str);
+            try {
+                ubyte.decodeBin(str);
+            } catch (NumberFormatException | NullPointerException e){
+                case_count++;
+                continue;
+            }
+            
             double dst = ubyte.getValue();
             if (dst != ref_buf[case_count]) {
                 error_count++;
