@@ -42,7 +42,7 @@ public class Value {
     };
 
     /* Value of number in float */
-    private NumberCE num = new IntegerCE();
+    private NumberCE num = new SignedIntegerCE();
     /* Data type*/
     private data_type_e type = data_type_e.INT;
 
@@ -50,8 +50,8 @@ public class Value {
      * Constructor or class Value;
      */
     public Value() {
-//        this.setDataType(data_type_e.INT);
-//        this.num.setValue(0);
+        this.setDataType(data_type_e.INT);
+        this.num.setValue(0);
     }
 
     /**
@@ -61,6 +61,16 @@ public class Value {
      */
     public void setValue(double value) {
         num.setValue(value);
+    }
+
+    /**
+     * Get value
+     *
+     * @return value
+     */
+    public double getValue() {
+        double val = this.num.getValue();
+        return val;
     }
 
     /**
@@ -117,16 +127,6 @@ public class Value {
     }
 
     /**
-     * Get value
-     *
-     * @return value
-     */
-    public double getValue() {
-        double val = this.num.getValue();
-        return val;
-    }
-
-    /**
      * Get hex string
      *
      * @return hex string
@@ -151,5 +151,53 @@ public class Value {
      */
     public String toDec() {
         return num.toDec();
+    }
+
+    /**
+     * Decode dec string to number value
+     *
+     * @param str dec string
+     * @throws NullPointerException if str == NULL
+     * @throws NumberFormatException if string is invalid
+     */
+    public void DecodeDec(String str)
+            throws NullPointerException, NumberFormatException {
+        try {
+            num.decodeDec(str);
+        } catch (NumberFormatException | NullPointerException e) {
+            throw e;
+        }
+    }
+    
+    /**
+     * Decode hex string to number value
+     *
+     * @param str hex string
+     * @throws NullPointerException if str == NULL
+     * @throws NumberFormatException if string is invalid
+     */
+    public void DecodeHex(String str)
+            throws NullPointerException, NumberFormatException {
+        try {
+            num.decodeHex(str);
+        } catch (NumberFormatException | NullPointerException e) {
+            throw e;
+        }
+    }
+    
+    /**
+     * Decode bin string to number value
+     *
+     * @param str bin string
+     * @throws NullPointerException if str == NULL
+     * @throws NumberFormatException if string is invalid
+     */
+    public void DecodeBin(String str)
+            throws NullPointerException, NumberFormatException {
+        try {
+            num.decodeBin(str);
+        } catch (NumberFormatException | NullPointerException e) {
+            throw e;
+        }
     }
 }
