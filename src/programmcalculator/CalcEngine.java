@@ -62,9 +62,9 @@ public class CalcEngine {
     }
 
     /**
-     * Ввод комманды
+     * Enter command
      *
-     * @param operation операция
+     * @param operation command
      */
     public void setCommand(Operation operation) {
         if (operation == Operation.EQUAL) {
@@ -75,13 +75,49 @@ public class CalcEngine {
         }
         _debug_message();
     }
+    
+    /**
+     * Get current command
+     */
+    public Operation getCommand() {
+        return this.op;
+    }
+
+    public void parseString(String str)
+            throws NullPointerException, NumberFormatException {
+        switch (vmode) {
+            case BIN:
+                try {
+                    res.DecodeBin(str);
+                } catch (NullPointerException | NumberFormatException e) {
+                    throw e;
+                }
+                break;
+            case DEC:
+                try {
+                    res.DecodeDec(str);
+                } catch (NullPointerException | NumberFormatException e) {
+                    throw e;
+                }
+                break;
+            case HEX:
+                try {
+                    res.DecodeHex(str);
+                } catch (NullPointerException | NumberFormatException e) {
+                    throw e;
+                }
+                break;
+            default:
+                break;
+        }
+    }
 
     /**
      * Get string with result in current view mode
      *
      * @return string result
      */
-    public String getResult() {
+    public String toString() {
         String result = new String();
         switch (vmode) {
             case DEC:
@@ -96,23 +132,21 @@ public class CalcEngine {
         }
         return result;
     }
-
+    
     /**
-     * Set value
-     *
-     * @param value - value
+     * Get result value
+     * @return result value
      */
-    public void setVal(double value) {
-        res.setValue(value);
-        _debug_message();
+    public Double getValue() {
+        return res.getValue();
     }
     
     /**
-     * Get result in value
-     * @return value
+     * Set value
+     * @param val settable value
      */
-    public  double getVal(){
-        return this.res.getValue();
+    public void setValue(Double val){
+        res.setValue(val);
     }
 
     /**
@@ -123,8 +157,7 @@ public class CalcEngine {
     public void setViewMode(view_mode_e view_mode) {
         this.vmode = view_mode;
     }
-    
-    
+
     /**
      * Get view mode
      *
